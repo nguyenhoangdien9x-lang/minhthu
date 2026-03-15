@@ -1,118 +1,186 @@
+/* --- BIẾN MÀU SẮC LÃNG MẠN --- */
 :root {
-    --bg-body: #fdfae6;
-    --bg-card: #ffffff;
-    --text-main: #333;
-    --primary: #d9534f;
-    --accent: #4CAF50;
-    --nav-bg: #333;
-}
-
-body.dark-theme {
-    --bg-body: #121212;
-    --bg-card: #1e1e1e;
-    --text-main: #e0e0e0;
-    --nav-bg: #000;
+    --primary-color: #cda434; /* Vàng Gold sang trọng */
+    --bg-light: #fbf8f1;      /* Nền kem ấm áp */
+    --bg-white: #ffffff;
+    --text-main: #4a4a4a;     /* Xám than chì dễ đọc */
+    --font-heading: 'Playfair Display', serif;
+    --font-text: 'Quicksand', sans-serif;
 }
 
 body {
-    background-color: var(--bg-body);
-    color: var(--text-main);
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    font-family: var(--font-text);
+    color: var(--text-main);
+    background-color: var(--bg-white);
+    line-height: 1.6;
 }
 
-/* Thanh tiến trình */
-#scroll-progress {
-    position: fixed;
-    top: 0; left: 0; width: 0%; height: 4px;
-    background: var(--primary);
-    z-index: 2000;
-}
-
-/* Navbar */
+/* --- THANH MENU CỐ ĐỊNH --- */
 .navbar {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
     display: flex; justify-content: space-between; align-items: center;
-    background: var(--nav-bg); color: white;
-    padding: 10px 5%; width: 100%; position: fixed; top: 0;
-    z-index: 1000; box-sizing: border-box;
+    padding: 15px 5%; box-sizing: border-box;
+    background: transparent; transition: 0.4s;
 }
 
-.nav-links { display: flex; list-style: none; gap: 20px; }
-
-#dark-mode-toggle {
-    background: transparent; border: 1px solid #ffeb3b; color: #ffeb3b;
-    padding: 5px 15px; border-radius: 20px; cursor: pointer;
+.navbar.scrolled {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* Layout Grid */
-.container {
-    display: grid; grid-template-columns: 250px 1fr;
-    gap: 30px; width: 90%; max-width: 1100px; margin: 40px auto;
+.logo {
+    font-family: var(--font-heading);
+    font-size: 24px; font-weight: bold; color: var(--primary-color);
 }
 
-.sidebar, .content {
-    background: var(--bg-card); padding: 25px;
-    border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+.nav-links { display: flex; list-style: none; gap: 25px; margin: 0; }
+.nav-links a { text-decoration: none; color: inherit; font-weight: 600; transition: 0.3s; }
+.navbar.scrolled .nav-links a { color: var(--text-main); }
+.nav-links a:hover { color: var(--primary-color); }
+
+/* --- MÀN HÌNH CHÍNH (HERO) TỰ ĐỘNG PHÓNG TO NỀN --- */
+.hero-section {
+    height: 100vh;
+    /* Hãy thay ảnh nền đám cưới của cậu vào link dưới đây */
+    background: url('https://images.unsplash.com/photo-1583939000240-690b63924ee2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; color: white;
 }
 
-/* 🖼️ SỬA LỖI MEDIA KHÔNG BỊ MẤT */
-.responsive-media {
-    width: 100%;
-    aspect-ratio: 16 / 9; /* Giữ đúng tỷ lệ video */
-    margin: 20px 0;
-    border-radius: 10px;
-    overflow: hidden;
-    background: #ccc;
+.hero-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Làm tối ảnh nền để chữ nổi bật */
 }
 
-.responsive-media iframe {
-    width: 100%; height: 100%; border: none;
-}
+.hero-content { position: relative; z-index: 1; }
+.hero-content h1 { font-family: var(--font-heading); font-size: 4rem; margin: 10px 0; font-style: italic; }
+.save-the-date, .wedding-date { font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; }
 
-img {
-    max-width: 100%; height: auto; border-radius: 10px;
+/* BỘ ĐẾM NGƯỢC */
+.countdown {
+    display: flex; justify-content: center; gap: 20px; margin-top: 30px;
 }
-
-/* Hiệu ứng Reveal */
-.reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: 0.8s ease-out;
+.countdown div {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    padding: 15px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3);
+    font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;
 }
+.countdown span { display: block; font-size: 2.5rem; font-family: var(--font-heading); }
 
+/* --- CÁC PHẦN NỘI DUNG CHUNG --- */
+.section { padding: 80px 5%; }
+.bg-light { background-color: var(--bg-light); }
+.container { max-width: 900px; margin: 0 auto; }
+.section-title {
+    font-family: var(--font-heading); font-size: 2.5rem;
+    color: var(--primary-color); text-align: center; margin-bottom: 40px;
+}
+.text-center { text-align: center; }
+
+img { max-width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+
+/* --- LỊCH TRÌNH & BẢN ĐỒ --- */
+.event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.event-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+.responsive-media { width: 100%; aspect-ratio: 4/3; border-radius: 15px; overflow: hidden; }
+.responsive-media iframe { width: 100%; height: 100%; border: none; }
+
+/* --- FORM RSVP --- */
+.rsvp-form { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
+.rsvp-form input, .rsvp-form select, .rsvp-form textarea {
+    width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px;
+    font-family: var(--font-text); font-size: 1rem; box-sizing: border-box; background: transparent;
+}
+.rsvp-form textarea { height: 120px; resize: vertical; }
+.btn-primary {
+    background: var(--primary-color); color: white; border: none; padding: 15px;
+    font-size: 1.1rem; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: bold;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(205, 164, 52, 0.3); }
+
+/* --- FOOTER & HIỆU ỨNG --- */
+.footer { text-align: center; padding: 30px; background: var(--text-main); color: white; }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: 1s ease-out; }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
-/* Interaction */
-.interaction-area { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-input { 
-    flex: 1; padding: 12px; border-radius: 20px; border: 1px solid #ccc;
-    background: var(--bg-card); color: var(--text-main);
-}
-#nut-chao { 
-    background: var(--accent); color: white; border: none; 
-    padding: 12px 30px; border-radius: 25px; cursor: pointer;
-}
-
-/* Responsive */
+/* RESPONSIVE */
 @media (max-width: 768px) {
-    .container { grid-template-columns: 1fr; }
-    .navbar { flex-direction: column; padding: 15px; }
-    .main-header { margin-top: 140px; }
+    .event-grid { grid-template-columns: 1fr; }
+    .hero-content h1 { font-size: 2.5rem; }
+    .countdown { flex-wrap: wrap; gap: 10px; }
+    .countdown div { padding: 10px 15px; }
+    .navbar { flex-direction: column; background: white; padding: 10px; }
+    .navbar .nav-links a { color: var(--text-main); }
+}
+/* --- TRÌNH PHÁT NHẠC (MUSIC PLAYER) --- */
+.music-player {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 9999;
 }
 
-.main-header { margin-top: 100px; text-align: center; }
-/* Hiệu ứng con trỏ nhấp nháy */
-#loi-chao::after {
-    content: "|";
-    margin-left: 5px;
-    color: var(--primary);
-    animation: nhap-nhay 0.8s infinite;
+.music-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: var(--font-text);
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
 }
 
-@keyframes nhap-nhay {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+.music-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Hiệu ứng tỏa sáng nhịp đập khi nhạc đang phát */
+.music-btn.playing {
+    animation: pulse 2s infinite;
+    background: #4CAF50; /* Đổi sang màu xanh khi đang phát */
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+/* --- KHUNG MÃ QR MỪNG CƯỚI --- */
+.qr-card {
+    background: white;
+    max-width: 350px;
+    margin: 30px auto 0;
+    padding: 40px 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 2px dashed var(--primary-color); /* Viền đứt khúc lãng mạn */
+}
+
+.qr-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: none; /* Bỏ viền mờ của ảnh chung */
+}
+
+.qr-card h3 { 
+    color: var(--primary-color); 
+    font-family: var(--font-heading); 
+    font-size: 1.5rem;
+    margin-bottom: 10px; 
+}
+
+.qr-card p { 
+    margin: 5px 0; 
+    font-size: 1.1rem; 
 }
