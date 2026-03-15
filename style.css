@@ -104,3 +104,15 @@ input {
 }
 
 .main-header { margin-top: 100px; text-align: center; }
+/* Hiệu ứng con trỏ nhấp nháy */
+#loi-chao::after {
+    content: "|";
+    margin-left: 5px;
+    color: var(--primary);
+    animation: nhap-nhay 0.8s infinite;
+}
+
+@keyframes nhap-nhay {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
