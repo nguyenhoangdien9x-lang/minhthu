@@ -1,4 +1,12 @@
-// 1. CHÀO HỎI
+// 1. THANH TIẾN TRÌNH CUỘN TRANG
+window.addEventListener('scroll', () => {
+    const scrollProgress = document.getElementById('scroll-progress');
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (window.scrollY / height) * 100;
+    scrollProgress.style.width = scrolled + "%";
+});
+
+// 2. CHÀO HỎI THÔNG MINH
 const chiecNut = document.getElementById('nut-chao');
 const oNhapTen = document.getElementById('nhap-ten');
 const theHienThi = document.getElementById('loi-chao');
@@ -12,8 +20,9 @@ function guiLoiChao() {
     }
 }
 chiecNut.addEventListener('click', guiLoiChao);
+oNhapTen.addEventListener('keypress', (e) => { if (e.key === "Enter") guiLoiChao(); });
 
-// 2. DARK MODE + LOCAL STORAGE
+// 3. DARK MODE + LOCAL STORAGE
 const nutDarkMode = document.getElementById('dark-mode-toggle');
 if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-theme');
@@ -27,7 +36,7 @@ nutDarkMode.addEventListener('click', () => {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
 
-// 3. SCROLL REVEAL (MẮT THẦN QUAN SÁT)
+// 4. SCROLL REVEAL (MẮT THẦN QUAN SÁT)
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('active');
