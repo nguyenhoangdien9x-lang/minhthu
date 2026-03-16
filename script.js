@@ -39,8 +39,8 @@
 
 /* --- 3. ĐƯỜNG DẪN 3 HÌNH ẢNH CỦA CẬU --- */
 /* Cậu tải 3 ảnh đám cưới lên và thay link vào đây nhé */
-.slide-1 { background-image: url('https://images.unsplash.com/photo-1583939000240-690b63924ee2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); }
-.slide-2 { background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); }
+.slide-1 { background-image: url('anh-cuoi-1.jpg'); }
+.slide-2 { background-image: url('anh-cuoi-2.jpg'); }
 .slide-3 { background-image: url('https://images.unsplash.com/photo-1511285560929-80b456dfe0ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); }
 
 /* --- 4. ĐỊNH NGHĨA HIỆU ỨNG TỰ ĐỘNG CUỘN (KEYFRAMES) --- */
