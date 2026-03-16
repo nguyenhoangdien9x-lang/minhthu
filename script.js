@@ -16,7 +16,7 @@ window.addEventListener('scroll', () => {
 // =========================================
 // Thay đổi ngày cưới của cậu ở đây (Năm, Tháng - 1, Ngày, Giờ, Phút)
 // Ví dụ: 15/10/2026 10:30 AM -> (2026, 9, 15, 10, 30, 0) (Lưu ý tháng bắt đầu từ 0)
-const weddingDate = new Date(2026, 9, 15, 10, 30, 0).getTime();
+const weddingDate = new Date(2026, 6, 4, 7, 0, 0).getTime();
 
 const countdownTimer = setInterval(() => {
     const now = new Date().getTime();
