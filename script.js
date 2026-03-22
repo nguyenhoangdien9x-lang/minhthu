@@ -150,10 +150,17 @@ e.target.classList.add(‘visible’);
 observer.unobserve(e.target);
 }
 }),
-{ threshold: 0.12 }
+{ threshold: 0, rootMargin: ‘0px 0px -60px 0px’ }
 );
 
-document.querySelectorAll(’.reveal’).forEach(el => observer.observe(el));
+document.querySelectorAll(’.reveal’).forEach(el => {
+// Hero content is handled by CSS animation — mark visible immediately
+if (el.classList.contains(‘hero-content’)) {
+el.classList.add(‘visible’);
+} else {
+observer.observe(el);
+}
+});
 })();
 
 // ─── MUSIC TOGGLE ─────────────────────────────────────────────────────────────
