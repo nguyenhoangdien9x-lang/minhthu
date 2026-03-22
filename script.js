@@ -1,135 +1,95 @@
-/* --- 1. CẤU HÌNH KHUNG HERO (CAROUSEL CONTAINER) --- */
-.hero-section {
-    height: 100vh;
-    position: relative;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; color: white;
-    overflow: hidden; /* Cắt bỏ phần ảnh thừa nằm ngoài màn hình */
+/* --- CÀI ĐẶT CHUNG --- */
+:root {
+    --primary-color: #c89d71; /* Màu vàng hồng lãng mạn */
+    --text-dark: #4a4a4a;
+    --text-light: #777;
+    --bg-light: #fdfaf6; /* Màu nền kem sữa */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Quicksand', sans-serif;
 }
 
-.hero-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Làm tối để chữ nổi bật */
-    z-index: 2; /* Nằm trên ảnh, dưới chữ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-dark);
+    line-height: 1.6;
+    background-color: #fff;
 }
 
-.hero-content {
-    position: relative; z-index: 3; /* Chữ nằm trên cùng */
+h1, h2, h3, .save-the-date { font-family: var(--font-heading); }
+.text-center { text-align: center; }
+.text-muted { color: var(--text-light); font-size: 1.1rem; max-width: 700px; margin: 0 auto 20px; }
+.container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+.section { padding: 80px 0; }
+.bg-light { background-color: var(--bg-light); }
+.section-title { text-align: center; font-size: 2.5rem; color: var(--primary-color); margin-bottom: 40px; }
+
+/* --- NAVBAR --- */
+.navbar { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: bold; color: var(--primary-color); }
+.nav-links { list-style: none; display: flex; gap: 20px; }
+.nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 600; transition: color 0.3s; }
+.nav-links a:hover { color: var(--primary-color); }
+
+/* --- HERO SECTION --- */
+.hero-section { height: 100vh; background: url('https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; }
+.hero-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.4); }
+.hero-content { position: relative; z-index: 10; padding: 20px; }
+
+.save-the-date { font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; }
+.hero-content h1 { font-size: 4rem; margin: 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.wedding-date { font-size: 1.5rem; letter-spacing: 5px; margin-bottom: 30px; font-weight: bold; }
+
+/* 3 Ảnh Đại Diện */
+.hero-avatars { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
+.avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-width: 100%; transition: transform 0.3s; }
+.avatar-main { width: 130px; height: 130px; border: 4px solid var(--primary-color); z-index: 2; }
+.avatar:hover { transform: scale(1.05); }
+
+/* Đếm ngược */
+.countdown { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+.time-box { background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); padding: 15px; border-radius: 10px; min-width: 80px; border: 1px solid rgba(255,255,255,0.3); }
+.time-box span { display: block; font-size: 2rem; font-weight: bold; font-family: var(--font-heading); }
+.time-box p { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+/* --- CÁC THÀNH PHẦN KHÁC --- */
+.image-wrapper img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 20px; }
+
+.event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.event-card { background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 5px solid var(--primary-color); }
+.event-card h3 { font-size: 1.8rem; margin-bottom: 20px; color: var(--text-dark); }
+.event-details p { margin-bottom: 10px; font-size: 1.1rem; }
+.event-note { margin-top: 20px; font-style: italic; color: var(--primary-color); }
+.event-map iframe { width: 100%; height: 350px; border: none; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+
+/* Form RSVP */
+.rsvp-form { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+.rsvp-form input, .rsvp-form select, .rsvp-form textarea { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: var(--font-body); font-size: 1rem; transition: border-color 0.3s; }
+.rsvp-form input:focus, .rsvp-form select:focus, .rsvp-form textarea:focus { outline: none; border-color: var(--primary-color); }
+.btn-primary { background-color: var(--primary-color); color: #fff; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.3s; font-family: var(--font-body); }
+.btn-primary:hover { background-color: #b0875e; }
+
+/* Mã QR Gửi quà */
+.qr-card { background: #fff; max-width: 400px; margin: 30px auto 0; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+.qr-img { width: 200px; height: 200px; margin-bottom: 20px; border: 1px solid #eee; padding: 10px; border-radius: 10px; }
+.highlight-text { color: var(--primary-color); font-size: 1.2rem; }
+
+/* Trình phát nhạc */
+.music-player { position: fixed; bottom: 20px; left: 20px; z-index: 1000; }
+.music-btn { background: #fff; border: 2px solid var(--primary-color); color: var(--primary-color); padding: 10px 20px; border-radius: 50px; cursor: pointer; font-family: var(--font-body); font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.3s; }
+.music-btn:hover { background: var(--primary-color); color: #fff; }
+
+.footer { background: var(--text-dark); color: #fff; text-align: center; padding: 30px 20px; margin-top: 40px; }
+
+/* --- RESPONSIVE CHO ĐIỆN THOẠI --- */
+@media (max-width: 768px) {
+    .nav-links { display: none; /* Ẩn menu trên mobile cho gọn */ }
+    .hero-content h1 { font-size: 2.5rem; }
+    .event-grid { grid-template-columns: 1fr; }
+    .countdown { flex-wrap: wrap; }
+    .time-box { flex: 1 1 40%; }
+    .avatar { width: 70px; height: 70px; }
+    .avatar-main { width: 90px; height: 90px; }
 }
-
-/* --- 2. CẤU HÌNH CÁC TẤM ẢNH (SLIDES) --- */
-.hero-slider {
-    display: flex; /* Đặt 3 tấm ảnh nằm hàng ngang */
-    width: 300%;   /* Khung dài gấp 3 lần màn hình */
-    height: 100%;
-    position: absolute; top: 0; left: 0; z-index: 1; /* Nằm dưới cùng */
-    
-    /* 1. Kích hoạt hiệu ứng cuộn: 
-       Tên: sliding | Thời gian: 15s | Lặp lại: vô hạn | Kiểu: mượt mà */
-    animation: sliding 15s infinite;
-}
-
-.slide {
-    width: 100%; /* Mỗi tấm ảnh chiếm 100% chiều rộng màn hình */
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* --- 3. ĐƯỜNG DẪN 3 HÌNH ẢNH CỦA CẬU --- */
-/* Cậu tải 3 ảnh đám cưới lên và thay link vào đây nhé */
-.slide-1 { background-image: url('anh-cuoi-1.jpg'); }
-.slide-2 { background-image: url('anh-cuoi-2.jpg'); }
-.slide-3 { background-image: url('https://images.unsplash.com/photo-1511285560929-80b456dfe0ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); }
-
-/* --- 4. ĐỊNH NGHĨA HIỆU ỨNG TỰ ĐỘNG CUỘN (KEYFRAMES) --- */
-/* Tổng thời gian là 15 giây (mỗi ảnh hiện 5 giây) */
-@keyframes sliding {
-    /* 0s - 4.5s: Hiện Ảnh 1 (Dừng lại để người xem nhìn) */
-    0%, 30% { transform: translateX(0%); }
-    
-    /* 4.5s - 5s: Cuộn từ Ảnh 1 sang Ảnh 2 (Di chuyển mượt) */
-    33.33% { transform: translateX(-33.33%); }
-    
-    /* 5s - 9.5s: Hiện Ảnh 2 */
-    33.33%, 63.33% { transform: translateX(-33.33%); }
-    
-    /* 9.5s - 10s: Cuộn từ Ảnh 2 sang Ảnh 3 */
-    66.66% { transform: translateX(-66.66%); }
-    
-    /* 10s - 14.5s: Hiện Ảnh 3 */
-    66.66%, 96.66% { transform: translateX(-66.66%); }
-    
-    /* 14.5s - 15s: Cuộn từ Ảnh 3 quay về Ảnh 1 */
-    100% { transform: translateX(0%); }
-}
-
-/* --- Các phần chữ và bộ đếm ngược giữ nguyên --- */
-.hero-content h1 { font-family: var(--font-heading); font-size: 4rem; margin: 10px 0; font-style: italic; }
-.save-the-date, .wedding-date { font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; }
-
-// =========================================
-// 2. BỘ ĐẾM NGƯỢC (COUNTDOWN)
-// =========================================
-// Thay đổi ngày cưới của cậu ở đây (Năm, Tháng - 1, Ngày, Giờ, Phút)
-// Ví dụ: 15/10/2026 10:30 AM -> (2026, 9, 15, 10, 30, 0) (Lưu ý tháng bắt đầu từ 0)
-const weddingDate = new Date(2026, 9, 4, 6, 7, 0).getTime();
-
-const countdownTimer = setInterval(() => {
-    const now = new Date().getTime();
-    const distance = weddingDate - now;
-
-    if (distance < 0) {
-        clearInterval(countdownTimer);
-        document.getElementById("countdown").innerHTML = "<h2>Đám cưới đang diễn ra! 🎉</h2>";
-        return;
-    }
-
-    // Tính toán thời gian
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    // Hiển thị ra màn hình (thêm số 0 đằng trước nếu nhỏ hơn 10)
-    document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-    document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-    document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-    document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-}, 1000);
-
-// =========================================
-// 3. HIỆU ỨNG HIỆN HÌNH KHI CUỘN (REVEAL)
-// =========================================
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        }
-    });
-}, { threshold: 0.15 });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-// =========================================
-// 4. ĐIỀU KHIỂN NHẠC NỀN
-// =========================================
-const musicToggle = document.getElementById('music-toggle');
-const bgMusic = document.getElementById('bg-music');
-let isPlaying = false;
-
-musicToggle.addEventListener('click', () => {
-    if (isPlaying) {
-        // Nếu đang phát thì Tắt
-        bgMusic.pause();
-        musicToggle.innerText = "🎵 Bật nhạc nền";
-        musicToggle.classList.remove('playing');
-    } else {
-        // Nếu đang tắt thì Bật
-        bgMusic.play();
-        musicToggle.innerText = "⏸ Tắt nhạc";
-        musicToggle.classList.add('playing');
-    }
-    // Đảo ngược trạng thái
-    isPlaying = !isPlaying;
-});
