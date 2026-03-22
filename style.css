@@ -55,7 +55,8 @@ body {
 /* ===== PETAL CANVAS ===== */
 #petals-canvas {
   position: fixed; inset: 0;
-  pointer-events: none; z-index: 0;
+  pointer-events: none; z-index: 1;
+  opacity: 0.85;
 }
 
 /* ===== MUSIC PLAYER ===== */
@@ -122,6 +123,7 @@ body {
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
   background: linear-gradient(160deg, #f9ede4 0%, #faf0e8 35%, #f5e8d8 65%, #ede0cc 100%);
+  z-index: 2;
 }
 
 /* Decorative background rings */
@@ -260,7 +262,7 @@ body {
 }
 
 /* ===== SECTIONS ===== */
-.section { padding: 100px 0; position: relative; }
+.section { padding: 100px 0; position: relative; z-index: 2; }
 .bg-light { background: var(--blush); }
 .container { max-width: 1050px; margin: 0 auto; padding: 0 28px; }
 .text-center { text-align: center; }
@@ -447,11 +449,20 @@ body {
 
 /* ===== REVEAL ANIMATION ===== */
 .reveal {
-  opacity: 0; transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  opacity: 0; transform: translateY(36px);
+  transition: opacity 0.85s ease, transform 0.85s ease;
 }
 .reveal.visible {
   opacity: 1; transform: translateY(0);
+}
+/* Hero content always visible immediately */
+.hero-content.reveal {
+  opacity: 1; transform: translateY(0);
+  animation: heroFadeIn 1.2s ease both;
+}
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== RESPONSIVE ===== */
