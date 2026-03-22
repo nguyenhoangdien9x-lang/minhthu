@@ -1,130 +1,240 @@
 <!DOCTYPE html>
+
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đám Cưới Của Chúng Mình ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đám Cưới Của Chúng Mình ❤️ | Hoàng Diện & Minh Thư</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,400;1,600&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Nút phát nhạc góc dưới màn hình -->
-    <div class="music-player">
-        <button id="music-toggle" class="music-btn">🎵 Bật nhạc nền</button>
-        <audio id="bg-music" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
+  <!-- Music Player -->
+
+  <div class="music-player">
+    <button id="music-toggle" class="music-btn">🎵 Bật nhạc nền</button>
+    <audio id="bg-music" loop>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- Navbar -->
+
+  <nav class="navbar" id="navbar">
+    <div class="logo">D ❤ T</div>
+    <ul class="nav-links">
+      <li><a href="#home">Trang chủ</a></li>
+      <li><a href="#story">Chuyện tình yêu</a></li>
+      <li><a href="#event">Sự kiện</a></li>
+      <li><a href="#rsvp">Tham dự</a></li>
+      <li><a href="#gift">Gửi quà</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+
+  <header id="home" class="hero-section">
+    <!-- Decorative SVG florals -->
+    <div class="hero-deco" aria-hidden="true">
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <!-- Top-left corner floral -->
+        <g opacity="0.18" fill="none" stroke="#C9A84C" stroke-width="1">
+          <circle cx="60" cy="60" r="50"/>
+          <circle cx="60" cy="60" r="30"/>
+          <line x1="10" y1="60" x2="110" y2="60"/>
+          <line x1="60" y1="10" x2="60" y2="110"/>
+          <line x1="25" y1="25" x2="95" y2="95"/>
+          <line x1="95" y1="25" x2="25" y2="95"/>
+          <circle cx="60" cy="10" r="4" fill="#C9A84C"/>
+          <circle cx="110" cy="60" r="4" fill="#C9A84C"/>
+          <circle cx="60" cy="110" r="4" fill="#C9A84C"/>
+          <circle cx="10" cy="60" r="4" fill="#C9A84C"/>
+        </g>
+        <!-- Top-right corner floral -->
+        <g opacity="0.18" fill="none" stroke="#C97B84" stroke-width="1" transform="translate(1380,0) scale(-1,1)">
+          <circle cx="60" cy="60" r="50"/>
+          <circle cx="60" cy="60" r="30"/>
+          <line x1="10" y1="60" x2="110" y2="60"/>
+          <line x1="60" y1="10" x2="60" y2="110"/>
+          <line x1="25" y1="25" x2="95" y2="95"/>
+          <line x1="95" y1="25" x2="25" y2="95"/>
+          <circle cx="60" cy="10" r="4" fill="#C97B84"/>
+          <circle cx="110" cy="60" r="4" fill="#C97B84"/>
+          <circle cx="60" cy="110" r="4" fill="#C97B84"/>
+          <circle cx="10" cy="60" r="4" fill="#C97B84"/>
+        </g>
+        <!-- Bottom decorative branch left -->
+        <g opacity="0.12" stroke="#C9A84C" stroke-width="1.2" fill="none">
+          <path d="M0 820 Q80 760 160 800 Q240 840 320 780"/>
+          <path d="M80 770 Q90 740 110 750"/>
+          <path d="M160 800 Q170 765 190 770"/>
+          <path d="M240 790 Q250 760 270 768"/>
+          <ellipse cx="112" cy="748" rx="6" ry="10" fill="#C9A84C" opacity="0.4" transform="rotate(-30 112 748)"/>
+          <ellipse cx="192" cy="768" rx="6" ry="10" fill="#C9A84C" opacity="0.4" transform="rotate(-20 192 768)"/>
+          <ellipse cx="272" cy="766" rx="6" ry="10" fill="#C9A84C" opacity="0.4" transform="rotate(-15 272 766)"/>
+        </g>
+        <!-- Bottom decorative branch right -->
+        <g opacity="0.12" stroke="#C97B84" stroke-width="1.2" fill="none" transform="translate(1440,0) scale(-1,1)">
+          <path d="M0 820 Q80 760 160 800 Q240 840 320 780"/>
+          <path d="M80 770 Q90 740 110 750"/>
+          <path d="M160 800 Q170 765 190 770"/>
+          <path d="M240 790 Q250 760 270 768"/>
+          <ellipse cx="112" cy="748" rx="6" ry="10" fill="#C97B84" opacity="0.4" transform="rotate(-30 112 748)"/>
+          <ellipse cx="192" cy="768" rx="6" ry="10" fill="#C97B84" opacity="0.4" transform="rotate(-20 192 768)"/>
+          <ellipse cx="272" cy="766" rx="6" ry="10" fill="#C97B84" opacity="0.4" transform="rotate(-15 272 766)"/>
+        </g>
+      </svg>
     </div>
 
-    <!-- Thanh điều hướng -->
-    <nav class="navbar" id="navbar">
-        <div class="logo">D ❤️ T</div>
-        <ul class="nav-links">
-            <li><a href="#home">Trang chủ</a></li>
-            <li><a href="#story">Chuyện tình yêu</a></li>
-            <li><a href="#event">Sự kiện</a></li>
-            <li><a href="#rsvp">Tham dự</a></li>
-            <li><a href="#gift">Gửi quà</a></li>
-        </ul>
-    </nav>
+```
+<div class="hero-overlay"></div>
 
-    <!-- Phần mở đầu (Hero) -->
-    <header id="home" class="hero-section">
-        <div class="hero-overlay"></div>
-        <div class="hero-content reveal">
-            <p class="save-the-date">Save The Date</p>
-            
-            <!-- 3 Ảnh Đại Diện -->
-            <div class="hero-avatars">
-                <img src="anh-cuoi-1.JPG" alt="Chú rể" class="avatar">
-                <img src="anh-cuoi-2.JPG" alt="Ảnh chung" class="avatar avatar-main">
-                <img src="Anh-cuoi-3.jpeg" alt="Cô dâu" class="avatar">
-            </div>
+<div class="hero-content reveal">
+  <p class="save-the-date">Save The Date</p>
 
-            <h1>Hoàng Diện & Minh Thư</h1>
-            <p class="wedding-date">04 . 06 . 2026</p>
-            
-            <!-- Bộ đếm ngược -->
-            <div class="countdown" id="countdown">
-                <div class="time-box"><span id="days">00</span><p>Ngày</p></div>
-                <div class="time-box"><span id="hours">00</span><p>Giờ</p></div>
-                <div class="time-box"><span id="minutes">00</span><p>Phút</p></div>
-                <div class="time-box"><span id="seconds">00</span><p>Giây</p></div>
-            </div>
+  <!-- 3 Avatar Photos -->
+  <div class="hero-avatars">
+    <img src="anh-cuoi-1.JPG" alt="Chú rể" class="avatar"
+         onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face'">
+    <img src="anh-cuoi-2.JPG" alt="Ảnh chung" class="avatar avatar-main"
+         onerror="this.src='https://images.unsplash.com/photo-1529634597503-139d3726fed5?w=400&h=400&fit=crop'">
+    <img src="Anh-cuoi-3.jpeg" alt="Cô dâu" class="avatar"
+         onerror="this.src='https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=300&h=300&fit=crop&crop=face'">
+  </div>
+
+  <h1>Hoàng Diện &amp; Minh Thư</h1>
+  <p class="wedding-date">04 . 06 . 2026</p>
+
+  <!-- Countdown -->
+  <div class="countdown" id="countdown">
+    <div class="time-box"><span id="days">00</span><p>Ngày</p></div>
+    <div class="time-box"><span id="hours">00</span><p>Giờ</p></div>
+    <div class="time-box"><span id="minutes">00</span><p>Phút</p></div>
+    <div class="time-box"><span id="seconds">00</span><p>Giây</p></div>
+  </div>
+</div>
+```
+
+  </header>
+
+  <!-- Story -->
+
+  <section id="story" class="section bg-light">
+    <div class="container">
+      <div class="reveal">
+        <h2 class="section-title">Chuyện Chúng Mình</h2>
+        <p class="text-center text-muted">"Hành trình vạn dặm bắt đầu từ một bước chân, và hành trình tình yêu của chúng mình bắt đầu từ ánh mắt đầu tiên..."</p>
+      </div>
+      <div class="story-grid reveal">
+        <div class="story-text">
+          <div class="story-year">2020</div>
+          <p>Cuộc gặp gỡ đầu tiên đơn giản như một ngày thu bình thường — nhưng với <strong>Hoàng Diện</strong>, ánh mắt ấy đủ để làm tim anh lỡ nhịp.</p>
+          <p>Từ những tin nhắn ngập ngừng, những buổi cà phê kéo dài mãi không muốn về, đến tiếng cười vô tư của <strong>Minh Thư</strong> — tất cả đã dệt nên câu chuyện riêng của chúng mình.</p>
+          <p>Và hôm nay, chúng mình muốn chia sẻ niềm hạnh phúc này cùng những người thân yêu nhất. Cảm ơn bạn đã là một phần trong hành trình ấy.</p>
         </div>
-    </header>
-
-    <!-- Câu chuyện -->
-    <section id="story" class="section bg-light">
-        <div class="container reveal">
-            <h2 class="section-title">Chuyện Chúng Mình</h2>
-            <p class="text-center text-muted">"Hành trình vạn dặm bắt đầu từ một bước chân, và hành trình tình yêu của chúng mình bắt đầu từ ánh mắt đầu tiên..."</p>
-            <div class="image-wrapper">
-                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000&q=80" alt="Ảnh cưới lãng mạn">
-            </div>
+        <div class="image-wrapper">
+          <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80"
+               alt="Ảnh cưới lãng mạn" loading="lazy">
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Sự kiện -->
-    <section id="event" class="section">
-        <div class="container reveal">
-            <h2 class="section-title">Thông Tin Sự Kiện</h2>
-            <div class="event-grid">
-                <div class="event-card">
-                    <h3>Lễ Cưới Chính Thức</h3>
-                    <div class="event-details">
-                        <p><span>📅</span> <strong>Thời gian:</strong> 10:30 Sáng | Thứ Năm, 04/06/2026</p>
-                        <p><span>📍</span> <strong>Địa điểm:</strong> Khách sạn Hạnh Phúc, Số 1 Đường Tình Yêu, Hà Nội</p>
-                    </div>
-                    <p class="event-note">Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi.</p>
-                </div>
-                <div class="event-map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.096814183571!2d105.78009371533203!3d21.028811885998316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab4cd0c66f05%3A0xea31563511af2e54!2zSMOgIE7hu5lp!5e0!3m2!1svi!2s!4v1680000000000!5m2!1svi!2s" loading="lazy"></iframe>
-                </div>
-            </div>
+  <!-- Event -->
+
+  <section id="event" class="section">
+    <div class="container reveal">
+      <h2 class="section-title">Thông Tin Sự Kiện</h2>
+      <div class="event-grid">
+        <div class="event-card">
+          <h3>✨ Lễ Cưới Chính Thức</h3>
+          <div class="event-details">
+            <p>
+              <span>📅</span>
+              <span><strong>Thời gian:</strong> 10:30 Sáng<br>Thứ Năm, ngày 04 tháng 06 năm 2026</span>
+            </p>
+            <p>
+              <span>📍</span>
+              <span><strong>Địa điểm:</strong> Khách sạn Hạnh Phúc<br>Số 1 Đường Tình Yêu, Hà Nội</span>
+            </p>
+            <p>
+              <span>👗</span>
+              <span><strong>Trang phục:</strong> Lịch sự, trang trọng</span>
+            </p>
+          </div>
+          <p class="event-note">
+            "Sự hiện diện của quý khách là niềm vinh hạnh và niềm vui lớn nhất cho gia đình chúng tôi."
+          </p>
         </div>
-    </section>
-
-    <!-- RSVP -->
-    <section id="rsvp" class="section bg-light">
-        <div class="container reveal">
-            <h2 class="section-title">Xác Nhận Tham Dự</h2>
-            <p class="text-center text-muted">Vui lòng xác nhận trước ngày 20/05/2026 để chúng mình chuẩn bị chu đáo nhất nhé!</p>
-            
-            <form action="#" method="POST" class="rsvp-form">
-                <input type="text" name="name" placeholder="Tên của bạn là gì?" required>
-                <input type="tel" name="phone" placeholder="Số điện thoại" required>
-                <select name="attendance" required>
-                    <option value="" disabled selected>Bạn sẽ đến chứ?</option>
-                    <option value="Có">Tất nhiên rồi! Chúc mừng hạnh phúc 🥂</option>
-                    <option value="Không">Rất tiếc, mình bận mất rồi 🙏</option>
-                </select>
-                <textarea name="message" rows="4" placeholder="Gửi lời chúc đến cô dâu chú rể..."></textarea>
-                <button type="submit" class="btn-primary">Gửi Xác Nhận 💌</button>
-            </form>
+        <div class="event-map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.096814183571!2d105.78009371533203!3d21.028811885998316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab4cd0c66f05%3A0xea31563511af2e54!2zSMOgIE7hu5lp!5e0!3m2!1svi!2s!4v1680000000000!5m2!1svi!2s"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Bản đồ địa điểm đám cưới">
+          </iframe>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Gửi quà -->
-    <section id="gift" class="section">
-        <div class="container reveal text-center">
-            <h2 class="section-title">Gửi Quà Cưới</h2>
-            <p class="text-muted">"Sự hiện diện của bạn là món quà vô giá đối với chúng mình. Nhưng nếu bạn ở xa không thể tới dự và muốn gửi chút lộc hỉ, bạn có thể quét mã QR dưới đây nhé!" ❤️</p>
-            
-            <div class="qr-card">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=ChucMungHanhPhuc" alt="Mã QR Mừng Cưới" class="qr-img">
-                <h3>Ngân Hàng Hạnh Phúc</h3>
-                <p>STK: <strong class="highlight-text">1234 567 890</strong></p>
-                <p>Chủ TK: <strong>HOÀNG DIỆN / MINH THƯ</strong></p>
-            </div>
-        </div>
-    </section>
+  <!-- RSVP -->
 
-    <footer class="footer">
-        <p>Được thiết kế với tình yêu ❤️ | Chú Rể & Cô Dâu © 2026</p>
-    </footer>
+  <section id="rsvp" class="section bg-light">
+    <div class="container reveal">
+      <h2 class="section-title">Xác Nhận Tham Dự</h2>
+      <p class="text-center text-muted">Vui lòng xác nhận trước ngày <strong>20/05/2026</strong> để chúng mình chuẩn bị chu đáo nhất nhé!</p>
 
+```
+  <form class="rsvp-form" id="rsvp-form">
+    <input type="text" name="name" placeholder="Tên của bạn là gì?" required>
+    <input type="tel" name="phone" placeholder="Số điện thoại" required>
+    <select name="attendance" required>
+      <option value="" disabled selected>Bạn sẽ đến chứ?</option>
+      <option value="yes">Tất nhiên rồi! Chúc mừng hạnh phúc 🥂</option>
+      <option value="no">Rất tiếc, mình bận mất rồi 🙏</option>
+    </select>
+    <textarea name="message" rows="4" placeholder="Gửi lời chúc đến cô dâu chú rể..."></textarea>
+    <button type="submit" class="btn-primary">Gửi Xác Nhận 💌</button>
+  </form>
+</div>
+```
+
+  </section>
+
+  <!-- Gift / QR -->
+
+  <section id="gift" class="section">
+    <div class="container reveal text-center">
+      <h2 class="section-title">Gửi Quà Cưới</h2>
+      <p class="text-muted">
+        "Sự hiện diện của bạn là món quà vô giá đối với chúng mình. Nhưng nếu bạn ở xa không thể tới dự và muốn gửi chút lộc hỉ, bạn có thể quét mã QR dưới đây nhé!" ❤️
+      </p>
+      <div class="qr-card">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=8B6914&bgcolor=FAF6F0&data=ChucMungHanhPhucHoangDienMinhThu"
+          alt="Mã QR Mừng Cưới" class="qr-img">
+        <h3>Ngân Hàng Hạnh Phúc</h3>
+        <p>STK: <strong class="highlight-text">1234 567 890</strong></p>
+        <p>Chủ TK: <strong>HOÀNG DIỆN / MINH THƯ</strong></p>
+        <p style="margin-top:16px;font-size:0.85rem;">Nội dung CK: <em>Tên bạn + Chúc mừng</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+
+  <footer class="footer">
+    <p>Được thiết kế với tình yêu ❤️ &nbsp;|&nbsp; Hoàng Diện & Minh Thư © 2026</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
     <script src="script.js"></script>
 </body>
 </html>
