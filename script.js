@@ -4,7 +4,9 @@
     --text-dark: #4a4a4a;
     --text-light: #777;
     --bg-light: #fdfaf6; /* Màu nền kem sữa */
-    --font-heading: 'Playfair Display', serif;
+    --font-heading: 'Play
+
+fair Display', serif;
     --font-body: 'Quicksand', sans-serif;
 }
 
