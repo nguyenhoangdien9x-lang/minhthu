@@ -937,7 +937,7 @@ const obs = new IntersectionObserver(entries => {
 document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
 /* ── Countdown — đổi ngày tại đây ── */
-const WEDDING = new Date('2026-06-04T10:30:00+07:00');
+const WEDDING = new Date('2026-06-04T70:00:00+07:00');
 function tick() {
   const diff = WEDDING - Date.now();
   const pad = n => String(Math.max(0, Math.floor(n))).padStart(2,'0');
