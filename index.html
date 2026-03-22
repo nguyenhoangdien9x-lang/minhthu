@@ -101,7 +101,9 @@ img  { display:block; max-width:100%; height:auto; }
 ══════════════════════════════════════ */
 #home {
   min-height:100svh; min-height:100vh;
-  background:linear-gradient(170deg, #fdf4eb 0%, #fdf8f2 55%, #f5ede2 100%);
+  /* ═══ ĐỔI ẢNH NỀN TẠI ĐÂY (dòng 104) ═══ */
+  background:linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+             url("anh-cuoi-2.JPG") center center / cover no-repeat;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; padding:7rem var(--gutter) 4rem;
   position:relative; overflow:hidden;
@@ -123,13 +125,14 @@ img  { display:block; max-width:100%; height:auto; }
 .hero__eyebrow {
   font-family:var(--serif); font-style:italic;
   font-size:clamp(.9rem,2vw,1.2rem); font-weight:300;
-  color:var(--muted); letter-spacing:.12em; margin-bottom:1.4rem;
+  color:rgba(255,255,255,.8); letter-spacing:.12em; margin-bottom:1.4rem;
   animation:fadeUp .9s ease both;
 }
 .hero__names {
   font-family:var(--script);
   font-size:clamp(3.5rem, 10vw, 7.5rem);
-  color:var(--deep); line-height:1;
+  color:var(--white); line-height:1;
+  text-shadow: 0 2px 20px rgba(0,0,0,.3);
   animation:fadeUp .9s .15s ease both;
 }
 .hero__amp {
@@ -139,7 +142,7 @@ img  { display:block; max-width:100%; height:auto; }
 .hero__date {
   font-family:var(--serif); font-weight:300;
   font-size:clamp(.9rem,2.2vw,1.3rem);
-  letter-spacing:.35em; color:var(--muted);
+  letter-spacing:.35em; color:rgba(255,255,255,.85);
   margin-top:1.5rem;
   animation:fadeUp .9s .3s ease both;
 }
@@ -167,7 +170,7 @@ img  { display:block; max-width:100%; height:auto; }
   position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
   display:flex; flex-direction:column; align-items:center; gap:.5rem;
   font-size:.55rem; letter-spacing:.3em; text-transform:uppercase;
-  color:var(--muted); animation:pulse 2.5s infinite;
+  color:rgba(255,255,255,.6); animation:pulse 2.5s infinite;
 }
 .hero__scroll-bar { width:1px; height:36px; background:linear-gradient(to bottom, var(--rose), transparent); }
 
@@ -290,14 +293,15 @@ img  { display:block; max-width:100%; height:auto; }
 }
 .cd__box:last-child { border-right:none; }
 .cd__num {
-  display:block; font-family: var(--serif);
+  display:block; font-family:var(--serif);
+  font-weight:300; font-style:italic;
   font-size:clamp(3.8rem,10vw,6.5rem);
   color:var(--white); line-height:1;
 }
 .cd__lbl {
   display:block; font-size:.68rem; font-weight:300;
   letter-spacing:.3em; text-transform:uppercase;
-  color:rgba(255,255,255,.35); margin-top:.5rem;
+  color:rgba(255,255,255,.35); margin-top:.6rem;
 }
 .cd__quote {
   font-family:var(--serif); font-style:italic;
@@ -591,6 +595,20 @@ footer {
   .cd__box:nth-child(3) { border-top:1px solid rgba(255,255,255,.08); }
   footer { padding-bottom:5.5rem; }
 }
+
+/* ═══ TIM RƠI ═══ */
+.heart-container { position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+.heart {
+  position:absolute; top:-40px;
+  font-size:1.2rem; opacity:0;
+  animation:heartFall linear infinite;
+}
+@keyframes heartFall {
+  0%   { opacity:0;   transform:translateY(0)    rotate(0deg);   }
+  10%  { opacity:.8; }
+  90%  { opacity:.6; }
+  100% { opacity:0;   transform:translateY(110vh) rotate(360deg); }
+}
 </style>
 </head>
 <body>
@@ -617,6 +635,7 @@ footer {
 
 <!-- ══ HERO ══ -->
 <section id="home">
+  <div class="heart-container" id="hearts"></div>
   <p class="hero__eyebrow">We are getting married!</p>
   <h1 class="hero__names">
     Hoàng Diện
@@ -936,18 +955,36 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.07 });
 document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
-/* ── Countdown — đổi ngày tại đây ── */
-const WEDDING = new Date(2026, 5, 4, 7, 00, 0);
-function tick() {
-  const diff = WEDDING - Date.now();
-  const pad = n => String(Math.max(0, Math.floor(n))).padStart(2,'0');
-  if (diff <= 0) { ['cd-d','cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent='00'); return; }
-  document.getElementById('cd-d').textContent = pad(diff/86400000);
-  document.getElementById('cd-h').textContent = pad(diff%86400000/3600000);
-  document.getElementById('cd-m').textContent = pad(diff%3600000/60000);
-  document.getElementById('cd-s').textContent = pad(diff%60000/1000);
-}
-tick(); setInterval(tick,1000);
+/* ── Countdown ── */
+document.addEventListener('DOMContentLoaded', function() {
+  // ✅ Ngày cưới: 04/06/2026 lúc 10:30 sáng giờ Việt Nam
+  // Tháng 6 = index 5 (JavaScript đếm tháng từ 0)
+  var wed = new Date(2026, 5, 4, 10, 30, 0);
+
+  function pad(n) {
+    return String(Math.max(0, Math.floor(n))).padStart(2, '0');
+  }
+
+  function tick() {
+    var diff = wed.getTime() - new Date().getTime();
+
+    if (isNaN(diff) || diff <= 0) {
+      document.getElementById('cd-d').textContent = '00';
+      document.getElementById('cd-h').textContent = '00';
+      document.getElementById('cd-m').textContent = '00';
+      document.getElementById('cd-s').textContent = '00';
+      return;
+    }
+
+    document.getElementById('cd-d').textContent = pad(Math.floor(diff / 86400000));
+    document.getElementById('cd-h').textContent = pad(Math.floor(diff % 86400000 / 3600000));
+    document.getElementById('cd-m').textContent = pad(Math.floor(diff % 3600000 / 60000));
+    document.getElementById('cd-s').textContent = pad(Math.floor(diff % 60000 / 1000));
+  }
+
+  tick();
+  setInterval(tick, 1000);
+});
 
 /* ── Lightbox ── */
 function openLightbox(el) {
@@ -984,6 +1021,25 @@ function sendWish() {
 function openGift()  { document.getElementById('gift-modal').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeGift() { document.getElementById('gift-modal').classList.remove('open'); document.body.style.overflow=''; }
 function closeGiftOutside(e) { if (e.target === document.getElementById('gift-modal')) closeGift(); }
+
+/* ═══ TIM RƠI — chỉnh số lượng/tốc độ tại đây ═══ */
+(function() {
+  var emojis = ['❤️','🩷','💕','💗','💓','🌸'];
+  var container = document.getElementById('hearts');
+  var count = 18; // số tim trên màn hình
+
+  for (var i = 0; i < count; i++) {
+    var h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    h.style.left      = Math.random() * 100 + 'vw';
+    h.style.fontSize  = (0.8 + Math.random() * 1.2) + 'rem';
+    h.style.animationDuration  = (6 + Math.random() * 10) + 's';
+    h.style.animationDelay     = (Math.random() * 10) + 's';
+    h.style.opacity = 0;
+    container.appendChild(h);
+  }
+})();
 </script>
 </body>
 </html>
