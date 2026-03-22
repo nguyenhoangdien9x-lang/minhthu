@@ -1,69 +1,10 @@
-<!DOCTYPE html>
-<html lang="vi">
-<div class="music-player">
-        <button id="music-toggle" class="music-btn">🎵 Bật nhạc nền</button>
-        <audio id="bg-music" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
-    </div>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đám Cưới Của Chúng Mình ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,600&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <nav class="navbar" id="navbar">
-        <div class="logo">D ❤️ T</div>
-        <ul class="nav-links">
-            <li><a href="#home">Trang chủ</a></li>
-            <li><a href="#story">Chuyện tình yêu</a></li>
-            <li><a href="#event">Sự kiện</a></li>
-            <li><a href="#rsvp">Tham dự</a></li>
-        </ul>
-    </nav>
-
-    <header id="home" class="hero-section">
-        <div class="hero-overlay"></div>
-        
-        <div class="hero-slider">
-            <div class="slide slide-1"></div>
-            <div class="slide slide-2"></div>
-            <div class="slide slide-3"></div>
-        </div>
-        
-        <div class="hero-content reveal">
-            <p class="save-the-date">Save The Date</p>
-            <h1>Hoàng Diện & Minh Thư</h1>
-            <p class="wedding-date">04 . 06 . 2026</p>
-            <div class="countdown" id="countdown">
-                <div><span id="days">00</span> Ngày</div>
-                <div><span id="hours">00</span> Giờ</div>
-                <div><span id="minutes">00</span> Phút</div>
-                <div><span id="seconds">00</span> Giây</div>
-            </div>
-        </div>
-    </header>
-
-    <section id="story" class="section bg-light">
-        <div class="container reveal">
-            <h2 class="section-title">Chuyện Chúng Mình</h2>
-            <p class="text-center">"Hành trình vạn dặm bắt đầu từ một bước chân, và hành trình tình yêu của chúng mình bắt đầu từ ánh mắt đầu tiên..."</p>
-            <div class="image-wrapper" style="margin-top: 30px;">
-                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Ảnh cưới lãng mạn">
-            </div>
-        </div>
-    </section>
-
     <section id="event" class="section">
         <div class="container reveal">
             <h2 class="section-title">Thông Tin Sự Kiện</h2>
             <div class="event-grid">
                 <div class="event-card">
                     <h3>Lễ Cưới Chính Thức</h3>
-                    <p><strong>Thời gian:</strong> 10:30 Sáng | Chủ Nhật, 15/10/2026</p>
+                    <p><strong>Thời gian:</strong> 10:30 Sáng | Thứ Năm, 04/06/2026</p> 
                     <p><strong>Địa điểm:</strong> Khách sạn Hạnh Phúc, Số 1 Đường Tình Yêu, Hà Nội</p>
                     <p>Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi.</p>
                 </div>
@@ -77,7 +18,7 @@
     <section id="rsvp" class="section bg-light">
         <div class="container reveal">
             <h2 class="section-title">Xác Nhận Tham Dự</h2>
-            <p class="text-center">Vui lòng xác nhận trước ngày 01/10/2026 để chúng mình chuẩn bị chu đáo nhất nhé!</p>
+            <p class="text-center">Vui lòng xác nhận trước ngày 20/05/2026 để chúng mình chuẩn bị chu đáo nhất nhé!</p>
             
             <form action="https://formspree.io/f/your-form-id" method="POST" class="rsvp-form">
                 <input type="text" name="name" placeholder="Tên của bạn là gì?" required>
@@ -90,26 +31,5 @@
                 <textarea name="message" placeholder="Gửi lời chúc đến cô dâu chú rể..."></textarea>
                 <button type="submit" class="btn-primary">Gửi Xác Nhận 💌</button>
             </form>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <p>Được thiết kế với tình yêu ❤️ | Chú Rể & Cô Dâu © 2026</p>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
-<section id="gift" class="section">
-        <div class="container reveal text-center">
-            <h2 class="section-title">Gửi Quà Cưới</h2>
-            <p>"Sự hiện diện của bạn là món quà vô giá đối với chúng mình. Nhưng nếu bạn ở xa không thể tới dự và muốn gửi chút lộc hỉ, bạn có thể quét mã QR dưới đây nhé!" ❤️</p>
-            
-            <div class="qr-card">
-                <img src="https://via.placeholder.com/250x250.png?text=Ma+QR+Ngan+Hang" alt="Mã QR Mừng Cưới" class="qr-img">
-                <h3>Ngân Hàng Hạnh Phúc</h3>
-                <p>STK: <strong>1234 567 890</strong></p>
-                <p>Chủ TK: <strong>TÊN CÔ DÂU / CHÚ RỂ</strong></p>
-            </div>
         </div>
     </section>
