@@ -6,6 +6,7 @@
 <title>Hoàng Diện & Minh Thư — 04.06.2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery-bundle.min.css" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════
    ROOT TOKENS
@@ -311,51 +312,53 @@ img  { display:block; max-width:100%; height:auto; }
 }
 
 /* ══════════════════════════════════════
-   GALLERY
+   GALLERY (MASONRY & LIGHTBOX)
 ══════════════════════════════════════ */
 #gallery { background:var(--cream); }
-.gallery__sub {
-  font-family:var(--serif); font-style:italic;
-  font-size:clamp(.9rem,2vw,1.05rem); font-weight:300;
-  color:var(--muted); text-align:center;
-  margin-bottom:2.5rem; line-height:1.7;
+
+#lightgallery {
+  margin: 0 -6px; /* Bù trừ khoảng cách giữa các ảnh */
+  padding: 0;
+  list-style: none;
 }
-.gallery__grid {
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  grid-auto-rows:180px;
-  gap:8px;
+#lightgallery li {
+  padding: 6px; 
+  margin-bottom: 0; 
+  float: left;
+  width: 33.333%; /* 3 cột trên máy tính */
 }
-.gallery__item {
-  overflow:hidden; border-radius:3px;
-  background:var(--blush); cursor:pointer;
-  aspect-ratio:2/3;
-  transition:transform .3s, box-shadow .3s;
+#lightgallery li a {
+  display: block;
+  overflow: hidden;
+  border-radius: 6px; 
+  position: relative;
+  box-shadow: 0 4px 10px rgba(122,59,40,0.06);
 }
-.gallery__item:hover {
-  transform:scale(1.02);
-  box-shadow:0 8px 24px rgba(122,59,40,.18);
-  z-index:2; position:relative;
+#lightgallery li img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
 }
-.gallery__item:nth-child(1) { grid-column:span 2; grid-row:span 2; }
-.gallery__item:nth-child(5) { grid-column:span 2; }
-.gallery__item img { width:100%; height:100%; object-fit:cover; }
-.gallery__placeholder {
-  width:100%; height:100%;
-  display:flex; align-items:center; justify-content:center;
-  font-family:var(--script); font-size:2rem; color:var(--rose); opacity:.4;
+#lightgallery li a:hover img {
+  transform: scale(1.05);
 }
-/* lightbox */
-.lightbox {
-  display:none; position:fixed; inset:0; z-index:900;
-  background:rgba(0,0,0,.92); align-items:center; justify-content:center;
+.demo-gallery-poster {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.lightbox.open { display:flex; }
-.lightbox img  { max-width:90vw; max-height:90vh; object-fit:contain; border-radius:2px; }
-.lightbox__close {
-  position:absolute; top:1.5rem; right:1.5rem;
-  font-size:2rem; color:white; cursor:pointer;
-  background:none; border:none; line-height:1;
+#lightgallery li a:hover .demo-gallery-poster {
+  opacity: 1;
+}
+.demo-gallery-poster img {
+  width: 30px !important; 
+  height: 30px !important;
 }
 
 /* ══════════════════════════════════════
@@ -585,11 +588,10 @@ footer {
 @media (max-width:640px) {
   .nav__links { display:none; }
   .ham        { display:flex; }
-  .gallery__grid {
-    grid-template-columns:repeat(2,1fr);
-    grid-auto-rows:140px;
-  }
-  .gallery__item:nth-child(5) { grid-column:span 1; }
+  
+  /* Cập nhật chia 2 cột cho thư viện ảnh trên điện thoại */
+  #lightgallery li { width: 50%; }
+
   .events__grid { grid-template-columns:1fr; }
   .cd { grid-template-columns:repeat(2,1fr); }
   .cd__box:nth-child(2) { border-right:none; }
@@ -674,7 +676,6 @@ footer {
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
 <nav class="nav" id="nav">
   <a class="nav__logo" href="#home">HD &amp; MT</a>
   <ul class="nav__links">
@@ -696,7 +697,6 @@ footer {
   <a href="javascript:void(0)" onclick="openGift();closeDrw()">Mừng Cưới</a>
 </div>
 
-<!-- ══ HERO ══ -->
 <section id="home">
   <div class="heart-container" id="hearts"></div>
   <p class="hero__eyebrow">We are getting married!</p>
@@ -719,7 +719,6 @@ footer {
   </div>
 </section>
 
-<!-- ══ COUPLE ══ -->
 <section id="couple" class="sec">
   <div class="wrap">
     <div class="sh rv">
@@ -765,7 +764,6 @@ footer {
   </div>
 </section>
 
-<!-- ══ COUNTDOWN ══ -->
 <section id="countdown">
   <div class="wrap">
     <div class="sh rv">
@@ -782,7 +780,6 @@ footer {
   </div>
 </section>
 
-<!-- ══ GALLERY ══ -->
 <section id="gallery" class="sec">
   <div class="wrap">
     <div class="sh rv">
@@ -792,46 +789,90 @@ footer {
       <p class="sh__sub rv d1">Tình yêu là điều kiện trong đó hạnh phúc của người khác là điều cần thiết cho chính bạn.</p>
     </div>
 
-    <div class="gallery__grid rv">
-      <!-- Thay src bằng đường dẫn ảnh thật của bạn -->
-      <div class="gallery__item" onclick="openLightbox(this)">
-        <img src="anh7.JPG" alt="Ảnh cưới">
-      </div>
-      <div class="gallery__item" onclick="openLightbox(this)">
-        <img src="anh8.JPG" alt="Ảnh cưới">
-      </div>
-      <div class="gallery__item" onclick="openLightbox(this)">
-        <img src="anh9.JPG" alt="Ảnh cưới">
-      </div>
-      <div class="gallery__item" onclick="openLightbox(this)">
-        <img src="anh10.JPG" alt="Ảnh cưới">
-      </div>
-      <div class="gallery__item" onclick="openLightbox(this)">
-        <img src="anh11.JPG" alt="Ảnh cưới">
-      </div>
-      <div class="gallery__item" onclick="openLightbox(this)">
-        <img src="anh12.JPG" alt="Ảnh cưới">
-      </div>
-      <div class="gallery__item" onclick="openLightbox(this)">
-        <img src="anh13.JPG" alt="Ảnh cưới">
-      </div>
-      <div class="gallery__item" onclick="openLightbox(this)">
-        <img src="anh14.JPG" alt="Ảnh cưới">
-      </div>
+    <div class="demo-gallery rv d1">
+        <ul id="lightgallery" class="list-unstyled row">
+            
+            <li data-src="anh7.JPG">
+                <a href="">
+                    <img src="anh7.JPG" alt="Ảnh cưới">
+                    <div class="demo-gallery-poster">
+                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
+                    </div>
+                </a>
+            </li>
+
+            <li data-src="anh8.JPG">
+                <a href="">
+                    <img src="anh8.JPG" alt="Ảnh cưới">
+                    <div class="demo-gallery-poster">
+                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
+                    </div>
+                </a>
+            </li>
+
+            <li data-src="anh9.JPG">
+                <a href="">
+                    <img src="anh9.JPG" alt="Ảnh cưới">
+                    <div class="demo-gallery-poster">
+                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
+                    </div>
+                </a>
+            </li>
+
+            <li data-src="anh10.JPG">
+                <a href="">
+                    <img src="anh10.JPG" alt="Ảnh cưới">
+                    <div class="demo-gallery-poster">
+                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
+                    </div>
+                </a>
+            </li>
+
+            <li data-src="anh11.JPG">
+                <a href="">
+                    <img src="anh11.JPG" alt="Ảnh cưới">
+                    <div class="demo-gallery-poster">
+                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
+                    </div>
+                </a>
+            </li>
+
+            <li data-src="anh12.JPG">
+                <a href="">
+                    <img src="anh12.JPG" alt="Ảnh cưới">
+                    <div class="demo-gallery-poster">
+                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
+                    </div>
+                </a>
+            </li>
+
+            <li data-src="anh13.JPG">
+                <a href="">
+                    <img src="anh13.JPG" alt="Ảnh cưới">
+                    <div class="demo-gallery-poster">
+                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
+                    </div>
+                </a>
+            </li>
+
+            <li data-src="anh14.JPG">
+                <a href="">
+                    <img src="anh14.JPG" alt="Ảnh cưới">
+                    <div class="demo-gallery-poster">
+                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
+                    </div>
+                </a>
+            </li>
+
+        </ul>
     </div>
-    <p style="text-align:center;margin-top:1.5rem;font-size:.72rem;font-weight:300;font-style:italic;color:var(--muted)" class="rv">
-      * Thay các ô placeholder bằng ảnh thật: &lt;img src="đường-dẫn.jpg"&gt;
+
+    <p style="text-align:center;margin-top:2rem;font-size:.72rem;font-weight:300;font-style:italic;color:var(--muted)" class="rv d2">
+      * Thay các ô placeholder bằng ảnh thật của hai bạn nhé!
     </p>
   </div>
 </section>
 
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox__close" onclick="closeLightbox()">✕</button>
-  <img id="lightbox-img" src="" alt="">
-</div>
-
-<!-- ══ EVENTS ══ -->
 <section id="events" class="sec sec--alt">
   <div class="wrap">
     <div class="sh rv">
@@ -894,7 +935,6 @@ footer {
 </section>
 
 
-<!-- ══ RSVP ══ -->
 <section id="rsvp" class="sec">
   <div class="wrap">
     <div class="sh rv">
@@ -905,20 +945,17 @@ footer {
     </div>
 
     <div class="rsvp__wrap rv d1">
-      <!-- Có / Không -->
       <label class="rsvp__label">Bạn sẽ tham dự chứ?</label>
       <div class="rsvp__toggle">
         <button class="rsvp__toggle-btn active" id="btn-yes" onclick="pickAttend('yes')">🥂 Tất nhiên rồi!</button>
         <button class="rsvp__toggle-btn"        id="btn-no"  onclick="pickAttend('no')">🙏 Rất tiếc, mình bận</button>
       </div>
 
-      <!-- Tên -->
       <div class="rsvp__field">
         <label class="rsvp__label">Tên của bạn *</label>
         <input class="rsvp__input" id="rs-name" type="text" placeholder="Nguyễn Văn A">
       </div>
 
-      <!-- Số người -->
       <div class="rsvp__field">
         <label class="rsvp__label">Số người đi cùng</label>
         <div class="rsvp__select-wrap">
@@ -932,7 +969,6 @@ footer {
         </div>
       </div>
 
-      <!-- Bạn của -->
       <div class="rsvp__field">
         <label class="rsvp__label">Bạn của</label>
         <div class="rsvp__select-wrap">
@@ -970,7 +1006,6 @@ footer {
   </div>
 </section>
 
-<!-- ══ WISHES ══ -->
 <section id="wishes" class="sec">
   <div class="wrap">
     <div class="sh rv">
@@ -981,7 +1016,6 @@ footer {
     </div>
 
     <div class="wishes__layout rv">
-      <!-- Form -->
       <div class="wishes__form">
         <div class="wish-chips">
           <div class="chip" onclick="fillWish(this)">Chúc mừng hạnh phúc! Trăm năm bên nhau nhé! 🥂</div>
@@ -1000,7 +1034,6 @@ footer {
         <button class="btn-wish" onclick="sendWish()">Gửi Lời Chúc ✉</button>
       </div>
 
-      <!-- Wall -->
       <div class="wishes__wall" id="wish-wall">
         <div class="wish-card">
           <div class="wish-card__author">Bạn Bè Thân Thiết</div>
@@ -1019,7 +1052,6 @@ footer {
   </div>
 </section>
 
-<!-- ══ GIFT MODAL ══ -->
 <div class="modal-overlay" id="gift-modal" onclick="closeGiftOutside(event)">
   <div class="modal">
     <div class="modal__head">
@@ -1046,7 +1078,6 @@ footer {
   </div>
 </div>
 
-<!-- ══ FOOTER ══ -->
 <footer>
   <div class="footer__names">Hoàng Diện &amp; Minh Thư</div>
   <p class="footer__date">04 · 06 · 2026</p>
@@ -1054,7 +1085,6 @@ footer {
   <p class="footer__copy">Được thiết kế với tình yêu ❤️ &nbsp;|&nbsp; Hoàng Diện & Minh Thư © 2026</p>
 </footer>
 
-<!-- ══ FLOATING BAR ══ -->
 <div class="float-bar">
   <a href="#wishes" class="float-bar__btn">
     <span class="float-bar__icon">✉️</span>
@@ -1070,7 +1100,32 @@ footer {
   </button>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/masonry.pkgd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/fullscreen/lg-fullscreen.min.js"></script>
+
 <script>
+/* ── KÍCH HOẠT MASONRY & LIGHTGALLERY ── */
+$(document).ready(function() {
+    // Kích hoạt xem ảnh phóng to
+    lightGallery(document.getElementById('lightgallery'), {
+        plugins: [lgZoom, lgFullscreen],
+        speed: 500,
+        mode: 'lg-fade',
+    });
+
+    // Kích hoạt lưới so le Masonry sau khi ảnh load xong
+    var $grid = $('#lightgallery').imagesLoaded( function() {
+        $grid.masonry({
+            itemSelector: 'li',
+            percentPosition: true
+        });
+    });
+});
+
 /* ── Nav scroll ── */
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', scrollY > 60);
@@ -1097,8 +1152,6 @@ document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
 /* ── Countdown ── */
 document.addEventListener('DOMContentLoaded', function() {
-  // ✅ Ngày cưới: 04/06/2026 lúc 10:30 sáng giờ Việt Nam
-  // Tháng 6 = index 5 (JavaScript đếm tháng từ 0)
   var wed = new Date(2026, 5, 4, 10, 30, 0);
 
   function pad(n) {
@@ -1125,19 +1178,6 @@ document.addEventListener('DOMContentLoaded', function() {
   tick();
   setInterval(tick, 1000);
 });
-
-/* ── Lightbox ── */
-function openLightbox(el) {
-  const img = el.querySelector('img');
-  if (!img) return;
-  document.getElementById('lightbox-img').src = img.src;
-  document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
-}
 
 /* ── Wishes ── */
 function fillWish(el) {
@@ -1166,7 +1206,7 @@ function closeGiftOutside(e) { if (e.target === document.getElementById('gift-mo
 (function() {
   var emojis = ['❤️','🩷','💕','💗','💓','🌸'];
   var container = document.getElementById('hearts');
-  var count = 18; // số tim trên màn hình
+  var count = 18; 
 
   for (var i = 0; i < count; i++) {
     var h = document.createElement('span');
@@ -1223,7 +1263,7 @@ function submitRsvp() {
     btn.style.display = 'none';
     var okId = attendChoice === 'yes' ? 'rsvp-ok' : 'rsvp-sorry';
     document.getElementById(okId).style.display = 'block';
-    // Reset
+    
     document.getElementById('rs-name').value = '';
     attendChoice = 'yes';
     document.getElementById('btn-yes').classList.add('active');
