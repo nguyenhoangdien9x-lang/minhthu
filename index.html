@@ -846,48 +846,45 @@ document.addEventListener('DOMContentLoaded', function() {
   loadWishes();
 });
 
-/* ── WISHES SYSTEM (LOCAL STORAGE) ── */
+/* ── WISHES SYSTEM (GOOGLE SHEETS) ── */
 
-// Mảng chứa các lời chúc mặc định ban đầu
-const defaultWishes = [
-    { name: 'Bạn Bè Thân Thiết', text: 'Chúc mừng hạnh phúc hai bạn! Mãi yêu thương nhau đến đầu bạc răng long nha. Chúc tổ ấm nhỏ luôn tràn ngập tiếng cười. 🥂' },
-    { name: 'Gia Đình Thân Yêu', text: 'Một chương mới đã mở ra với hai con. Ba mẹ mong cuộc sống mới tràn ngập hy vọng, hạnh phúc và bình an mãi mãi. ❤️' },
-    { name: 'Đồng Nghiệp Yêu Quý', text: 'Chúc đôi uyên ương thuận vợ thuận chồng, sớm có tin vui cho mọi người cùng chung vui nhé! Hạnh phúc viên mãn! 💕' },
-    { name: 'Hội bạn thân cấp 3', text: 'Chúc hai bạn bách niên giai lão! Hóng ngày dự tiệc cưới của hai người! 🎉' },
-    { name: 'Cô Chú Hàng Xóm', text: 'Mừng hạnh phúc hai cháu, chúc gia đình nhỏ luôn rộn vang tiếng cười. 🌸' }
-];
+// QUAN TRỌNG: Dán cái link Apps Script bạn vừa copy ở Bước 1 vào giữa 2 dấu nháy đơn bên dưới nhé!
+const WISHES_API_URL = 'https://script.google.com/macros/s/AKfycbx_PObrAI53vEYZH2xYbhYpyKFlISrnxPkd5ywOF02wOv72rlN8fCuXo34X9peRj4ecRw/exec';
 
 let allWishes = [];
 
+// 1. Tự động kéo lời chúc từ Google Sheets về khi khách vào web
 function loadWishes() {
-    // Lấy dữ liệu từ bộ nhớ máy, nếu chưa có thì dùng mảng mặc định
-    const storedWishes = localStorage.getItem('wedding_wishes_data');
-    if (storedWishes) {
-        allWishes = JSON.parse(storedWishes);
-    } else {
-        allWishes = [...defaultWishes];
-        localStorage.setItem('wedding_wishes_data', JSON.stringify(allWishes));
-    }
-    renderWishes(false);
+    fetch(WISHES_API_URL)
+        .then(response => response.json())
+        .then(data => {
+            allWishes = data;
+            renderWishes(false);
+        })
+        .catch(error => {
+            console.error('Lỗi tải lời chúc:', error);
+            // Nếu lỗi mạng, hiện vài lời chúc mặc định để web không bị trống
+            allWishes = [{name: 'Gia Đình', text: 'Chúc hai con trăm năm hạnh phúc!'}];
+            renderWishes(false);
+        });
 }
 
+// Hàm vẽ lời chúc ra màn hình (giữ nguyên giao diện đẹp đẽ của bạn)
 function renderWishes(showAll = false) {
     const wall = document.getElementById('wish-wall');
-    wall.innerHTML = ''; // Xóa sạch để render lại
+    wall.innerHTML = ''; 
     
-    // Nếu showAll = false, chỉ hiện 3 lời chúc mới nhất
     const displayCount = showAll ? allWishes.length : 3;
     
     for (let i = 0; i < allWishes.length; i++) {
         const wish = allWishes[i];
         const card = document.createElement('div');
         
-        // Thêm class ẩn nếu vượt quá số lượng hiển thị
         let classes = 'wish-card';
         if (i >= displayCount) {
             classes += ' hidden-wish';
         } else if (showAll) {
-             classes += ' wish-card__new'; // Thêm hiệu ứng trượt nếu đang bấm xem tất cả
+             classes += ' wish-card__new'; 
         }
         
         card.className = classes;
@@ -895,7 +892,6 @@ function renderWishes(showAll = false) {
         wall.appendChild(card);
     }
     
-    // Ẩn/hiện nút "Xem tất cả"
     const btnContainer = document.getElementById('wishes-btn-container');
     if (allWishes.length <= 3 || showAll) {
         btnContainer.style.display = 'none';
@@ -909,33 +905,48 @@ function fillWish(el) {
   document.getElementById('w-msg').focus();
 }
 
+// 2. Gửi lời chúc mới của khách lên Google Sheets
 function sendWish() {
   const name = document.getElementById('w-name').value.trim();
   const msg  = document.getElementById('w-msg').value.trim();
   if (!name || !msg) { alert('Vui lòng điền tên và lời chúc!'); return; }
   
-  // Tạo lời chúc mới và đẩy lên đầu mảng
+  // Đổi chữ trên nút để khách biết đang gửi
+  const btn = document.querySelector('.btn-wish');
+  const originalText = btn.textContent;
+  btn.textContent = 'Đang gửi... ⏳';
+  btn.disabled = true;
+
   const newWish = { name: name, text: msg };
+  
+  // Hiển thị ngay lên màn hình cho khách xem trước cho mượt
   allWishes.unshift(newWish);
-  
-  // Lưu vào bộ nhớ
-  localStorage.setItem('wedding_wishes_data', JSON.stringify(allWishes));
-  
-  // Render lại danh sách
   renderWishes(false);
   
-  // Xóa form
-  document.getElementById('w-name').value = '';
-  document.getElementById('w-msg').value  = '';
-  
-  document.getElementById('wish-wall').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Đẩy dữ liệu ngầm lên Google Sheets
+  fetch(WISHES_API_URL, {
+      method: 'POST',
+      body: JSON.stringify(newWish) // Đã bỏ no-cors để bắt lỗi tốt hơn
+  })
+  .then(response => {
+      // Khôi phục nút
+      btn.textContent = originalText;
+      btn.disabled = false;
+      // Xóa trắng form
+      document.getElementById('w-name').value = '';
+      document.getElementById('w-msg').value  = '';
+      document.getElementById('wish-wall').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  })
+  .catch(error => {
+      alert('Có lỗi mạng xảy ra, nhưng lời chúc của bạn đã được ghi nhận trên máy này!');
+      btn.textContent = originalText;
+      btn.disabled = false;
+  });
 }
 
 function showAllWishes() {
-    renderWishes(true); // Hiển thị tất cả
+    renderWishes(true);
 }
-
-/* ── Gift modal ── */
 function openGift()  { document.getElementById('gift-modal').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeGift() { document.getElementById('gift-modal').classList.remove('open'); document.body.style.overflow=''; }
 function closeGiftOutside(e) { if (e.target === document.getElementById('gift-modal')) closeGift(); }
