@@ -102,7 +102,6 @@ img  { display:block; max-width:100%; height:auto; }
 ══════════════════════════════════════ */
 #home {
   min-height:100svh; min-height:100vh;
-  /* ═══ ĐỔI ẢNH NỀN TẠI ĐÂY (dòng 104) ═══ */
   background:linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
              url("anh2.JPG") center center / cover no-repeat;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -312,7 +311,7 @@ img  { display:block; max-width:100%; height:auto; }
 }
 
 /* ══════════════════════════════════════
-   GALLERY (SỬ DỤNG CSS COLUMNS THAY VÌ MASONRY JS)
+   GALLERY (CSS COLUMNS)
 ══════════════════════════════════════ */
 #gallery { background:var(--cream); }
 
@@ -320,19 +319,18 @@ img  { display:block; max-width:100%; height:auto; }
   margin: 0; 
   padding: 0;
   list-style: none;
-  /* Dùng CSS Columns thay cho JS Masonry để tránh lỗi tải ảnh */
   column-count: 3;
   column-gap: 12px;
 }
 
 #lightgallery li {
-  margin-bottom: 12px; /* Khoảng cách dọc giữa các ảnh */
-  break-inside: avoid; /* Tránh ảnh bị cắt đôi giữa các cột */
+  margin-bottom: 12px; 
+  break-inside: avoid; 
   display: inline-block;
   width: 100%;
 }
 
-/* Ẩn các ảnh có class hidden-img */
+/* Ẩn các ảnh không cần thiết hiển thị ngoài lưới */
 #lightgallery li.hidden-img {
     display: none; 
 }
@@ -376,7 +374,7 @@ img  { display:block; max-width:100%; height:auto; }
   height: 30px !important;
 }
 
-/* Nút Xem Thêm */
+/* Nút Xem Thêm (Dùng chung cho cả Lời chúc) */
 .btn-view-more {
   display: inline-block;
   font-family: var(--sans);
@@ -398,12 +396,12 @@ img  { display:block; max-width:100%; height:auto; }
   color: var(--white);
 }
 
-/* Cho màn hình nhỏ (Điện thoại) thì chia 2 cột */
 @media (max-width: 640px) {
     #lightgallery {
         column-count: 2;
     }
 }
+
 /* ══════════════════════════════════════
    EVENTS
 ══════════════════════════════════════ */
@@ -483,14 +481,27 @@ img  { display:block; max-width:100%; height:auto; }
 .wish-form__input:focus,
 .wish-form__textarea:focus { border-color:var(--rose); }
 
+/* Nút Gửi Lời Chúc (Đồng bộ CSS với nút Xem thêm) */
 .btn-wish {
-  width:100%; font-family:var(--sans);
-  font-size:.65rem; font-weight:500; letter-spacing:.28em;
-  text-transform:uppercase; color:var(--white);
-  background:var(--rose); border:none; border-radius:4px;
-  padding:1rem; cursor:pointer; transition:background .2s;
+  width: 100%;
+  font-family: var(--sans);
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--rose);
+  border: 1px solid var(--rose);
+  border-radius: 40px; /* Bo góc tròn cho đồng bộ */
+  padding: .8rem 1rem;
+  cursor: pointer;
+  transition: all .3s ease;
+  margin-top: 10px;
 }
-.btn-wish:hover { background:var(--deep); }
+.btn-wish:hover { 
+    background: var(--deep); 
+    border-color: var(--deep);
+}
 
 /* quick-fill chips */
 .wish-chips {
@@ -506,6 +517,7 @@ img  { display:block; max-width:100%; height:auto; }
 .chip:hover { background:var(--rose); color:var(--white); border-color:var(--rose); }
 
 /* wall */
+.wishes__wall-container { display: flex; flex-direction: column; }
 .wishes__wall { display:grid; gap:1px; background:var(--line); }
 .wish-card {
   background:var(--white); padding:1.5rem 1.75rem;
@@ -520,31 +532,9 @@ img  { display:block; max-width:100%; height:auto; }
   font-size:.82rem; font-weight:300; line-height:1.85; color:var(--muted);
 }
 .wish-card__new { animation:slideIn .5s ease both; }
-@keyframes slideIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:none} }
-   /* wall */
-.wishes__wall { display:grid; gap:1px; background:var(--line); }
-.wish-card {
-  background:var(--white); padding:1.5rem 1.75rem;
-  transition:background .2s;
-}
-.wish-card:hover { background:var(--cream); }
-.wish-card__author {
-  font-family:var(--script); font-size:1.3rem; color:var(--rose);
-  margin-bottom:.4rem;
-}
-.wish-card__text {
-  font-size:.82rem; font-weight:300; line-height:1.85; color:var(--muted);
-}
 
-/* -- THÊM CSS MỚI ĐỂ ẨN LỜI CHÚC VÀ TẠO NÚT XEM THÊM -- */
-.hidden-wish {
-  display: none;
-}
-.wishes__wall-container {
-  display: flex;
-  flex-direction: column;
-}
-/* ----------------------------------------------------- */
+/* Ẩn bớt lời chúc */
+.hidden-wish { display: none; }
 
 @keyframes slideIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:none} }
 
@@ -657,10 +647,6 @@ footer {
 @media (max-width:640px) {
   .nav__links { display:none; }
   .ham        { display:flex; }
-  
-  /* Cập nhật chia 2 cột cho thư viện ảnh trên điện thoại */
-  #lightgallery li { width: 50%; }
-
   .events__grid { grid-template-columns:1fr; }
   .cd { grid-template-columns:repeat(2,1fr); }
   .cd__box:nth-child(2) { border-right:none; }
@@ -874,17 +860,13 @@ footer {
             <li data-src="anh17.JPG"><a href=""><img src="anh17.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
             <li data-src="anh4.JPG"><a href=""><img src="anh4.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
 
-            <li class="hidden-img" data-src="anh5.JPG"><a href=""><img src="anh5.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
-            <li class="hidden-img" data-src="anh6.JPG"><a href=""><img src="anh6.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
-            </ul>
-    </div>
-
-    <div style="text-align: center;" class="rv d2">
-        <button id="btn-view-more" class="btn-view-more" onclick="showAllImages()">Xem tất cả</button>
+            <li class="hidden-img" data-src="anh5.JPG"><a href=""><img src="anh5.JPG" alt="Ảnh cưới"></a></li>
+            <li class="hidden-img" data-src="anh6.JPG"><a href=""><img src="anh6.JPG" alt="Ảnh cưới"></a></li>
+        </ul>
     </div>
 
     <p style="text-align:center;margin-top:2rem;font-size:.72rem;font-weight:300;font-style:italic;color:var(--muted)" class="rv d2">
-      * Thay các ô placeholder bằng ảnh thật của hai bạn nhé!
+      * Bấm vào ảnh bất kỳ để xem trọn bộ album nhé!
     </p>
   </div>
 </section>
@@ -949,7 +931,6 @@ footer {
     </div>
   </div>
 </section>
-
 
 <section id="rsvp" class="sec">
   <div class="wrap">
@@ -1050,8 +1031,7 @@ footer {
         <button class="btn-wish" onclick="sendWish()">Gửi Lời Chúc ✉</button>
       </div>
 
-      <div class="wishes__wall" id="wish-wall">
-        <div class="wishes__wall-container">
+      <div class="wishes__wall-container">
         <div class="wishes__wall" id="wish-wall">
           <div class="wish-card">
             <div class="wish-card__author">Bạn Bè Thân Thiết</div>
@@ -1074,12 +1054,11 @@ footer {
             <div class="wish-card__author">Cô Chú Hàng Xóm</div>
             <p class="wish-card__text">Mừng hạnh phúc hai cháu, chúc gia đình nhỏ luôn rộn vang tiếng cười. 🌸</p>
           </div>
-          </div>
+        </div>
         
         <div style="text-align: center; margin-top: 1rem;">
           <button id="btn-view-more-wishes" class="btn-view-more" onclick="showAllWishes()">Xem thêm lời chúc</button>
         </div>
-      </div>
       </div>
     </div>
   </div>
@@ -1141,7 +1120,6 @@ footer {
 <script>
 /* ── KÍCH HOẠT LIGHTGALLERY ── */
 $(document).ready(function() {
-    // Kích hoạt LightGallery cho TẤT CẢ các ảnh
     lightGallery(document.getElementById('lightgallery'), {
         plugins: [lgZoom, lgFullscreen],
         speed: 500,
@@ -1150,12 +1128,7 @@ $(document).ready(function() {
     });
 });
 
-/* Hàm xử lý khi bấm nút "Xem tất cả" */
-function showAllImages() {
-    // Đơn giản là giả lập thao tác click vào bức ảnh đầu tiên 
-    // Hệ thống sẽ tự động bật pop-up xem ảnh lướt qua lại cho toàn bộ album
-    document.querySelector('#lightgallery li:first-child a').click();
-}
+/* ── Nav scroll ── */
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', scrollY > 60);
 });
@@ -1237,15 +1210,14 @@ function sendWish() {
 
 /* Hàm xử lý khi bấm nút "Xem thêm lời chúc" */
 function showAllWishes() {
-    // 1. Tìm tất cả các phần tử có class 'hidden-wish' và bỏ class đó đi
+    // Tìm tất cả các phần tử có class 'hidden-wish' và bỏ class đó đi
     const hiddenWishes = document.querySelectorAll('.hidden-wish');
     hiddenWishes.forEach(wish => {
         wish.classList.remove('hidden-wish');
-        // Thêm hiệu ứng trượt nhẹ cho các lời chúc vừa hiện ra
         wish.classList.add('wish-card__new'); 
     });
     
-    // 2. Ẩn nút "Xem thêm"
+    // Ẩn nút "Xem thêm"
     document.getElementById('btn-view-more-wishes').style.display = 'none';
 }
 
@@ -1254,7 +1226,7 @@ function openGift()  { document.getElementById('gift-modal').classList.add('open
 function closeGift() { document.getElementById('gift-modal').classList.remove('open'); document.body.style.overflow=''; }
 function closeGiftOutside(e) { if (e.target === document.getElementById('gift-modal')) closeGift(); }
 
-/* ═══ TIM RƠI — chỉnh số lượng/tốc độ tại đây ═══ */
+/* ═══ TIM RƠI ═══ */
 (function() {
   var emojis = ['❤️','🩷','💕','💗','💓','🌸'];
   var container = document.getElementById('hearts');
