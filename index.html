@@ -324,7 +324,6 @@ img  { display:block; max-width:100%; height:auto; }
 #lightgallery li {
   padding: 6px; 
   margin-bottom: 0; 
-  float: left;
   width: 33.333%; 
 }
 /* -- THÊM CSS MỚI ĐỂ ẨN ẢNH -- */
@@ -1173,27 +1172,30 @@ footer {
 <script>
 /* ── KÍCH HOẠT MASONRY & LIGHTGALLERY ── */
 $(document).ready(function() {
-    // 1. Kích hoạt LightGallery cho TẤT CẢ các ảnh (kể cả ảnh đang bị ẩn class hidden-img)
+    // 1. Kích hoạt LightGallery cho TẤT CẢ các ảnh
     lightGallery(document.getElementById('lightgallery'), {
         plugins: [lgZoom, lgFullscreen],
         speed: 500,
         mode: 'lg-fade',
-        selector: 'li' // Bắt toàn bộ thẻ li để khách vuốt được hết album
+        selector: 'li'
     });
 
-    // 2. Kích hoạt Masonry chỉ cho các ảnh đang hiển thị trên web để không bị lỗi đè layout
-    var $grid = $('#lightgallery').imagesLoaded( function() {
-        $grid.masonry({
-            itemSelector: 'li:not(.hidden-img)',
-            percentPosition: true
-        });
+    // 2. Kích hoạt Masonry
+    var $grid = $('#lightgallery').masonry({
+        itemSelector: 'li:not(.hidden-img)',
+        percentPosition: true,
+        transitionDuration: '0.3s' // Thêm hiệu ứng xếp ảnh mượt mà
+    });
+
+    // 3. QUAN TRỌNG NHẤT: Bắt nó tính toán lại chiều cao MỖI KHI có 1 ảnh tải xong
+    $grid.imagesLoaded().progress( function() {
+        $grid.masonry('layout');
     });
 });
 
 /* Hàm xử lý khi bấm nút "Xem tất cả" */
 function showAllImages() {
-    // Đơn giản là giả lập thao tác click vào bức ảnh đầu tiên 
-    // Hệ thống sẽ tự động bật pop-up xem ảnh lướt qua lại cho toàn bộ album
+    // Kích hoạt xem ảnh pop-up từ bức ảnh đầu tiên
     document.querySelector('#lightgallery li:first-child a').click();
 }
 window.addEventListener('scroll', () => {
