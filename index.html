@@ -565,7 +565,6 @@ img  { display:block; max-width:100%; height:auto; }
 .wish-card__text {
   font-size:.82rem; font-weight:300; line-height:1.85; color:var(--muted);
 }
-.wish-card__new { animation:slideIn .5s ease both; }
 
 /* -- THÊM CSS MỚI ĐỂ ẨN LỜI CHÚC VÀ TẠO NÚT XEM THÊM -- */
 .hidden-wish {
@@ -1195,38 +1194,8 @@ $(document).ready(function() {
 function showAllImages() {
     // Đơn giản là giả lập thao tác click vào bức ảnh đầu tiên 
     // Hệ thống sẽ tự động bật pop-up xem ảnh lướt qua lại cho toàn bộ album
-    document.querySelector('#lightgallery li').click();
-} {
-    // 1. Gỡ bỏ class 'hidden-img' khỏi tất cả các <li>
-    $('.hidden-img').removeClass('hidden-img');
-    
-    // 2. Ẩn nút "Xem tất cả"
-    $('#btn-view-more').hide();
-    
-    // 3. Gọi Masonry sắp xếp lại toàn bộ lưới ảnh sau khi đã hiện thêm
-    $grid.imagesLoaded( function() {
-        $grid.masonry('destroy'); // Hủy masonry cũ
-        $grid.masonry({           // Khởi tạo lại với toàn bộ ảnh
-            itemSelector: 'li',
-            percentPosition: true
-        });
-    });
-
-    // 4. Khởi động lại LightGallery để nó nhận diện đủ tất cả hình ảnh
-    var lg = window.lightGallery(document.getElementById('lightgallery'));
-    if(lg) {
-        lg.destroy(true); // Hủy gallery cũ
-    }
-    // Khởi tạo lại gallery mới với TẤT CẢ thẻ li
-    lightGallery(document.getElementById('lightgallery'), {
-        plugins: [lgZoom, lgFullscreen],
-        speed: 500,
-        mode: 'lg-fade',
-        selector: 'li' 
-    });
+    document.querySelector('#lightgallery li:first-child a').click();
 }
-
-/* ── Nav scroll ── */
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', scrollY > 60);
 });
