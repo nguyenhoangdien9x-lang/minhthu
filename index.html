@@ -551,6 +551,33 @@ img  { display:block; max-width:100%; height:auto; }
 }
 .wish-card__new { animation:slideIn .5s ease both; }
 @keyframes slideIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:none} }
+   /* wall */
+.wishes__wall { display:grid; gap:1px; background:var(--line); }
+.wish-card {
+  background:var(--white); padding:1.5rem 1.75rem;
+  transition:background .2s;
+}
+.wish-card:hover { background:var(--cream); }
+.wish-card__author {
+  font-family:var(--script); font-size:1.3rem; color:var(--rose);
+  margin-bottom:.4rem;
+}
+.wish-card__text {
+  font-size:.82rem; font-weight:300; line-height:1.85; color:var(--muted);
+}
+.wish-card__new { animation:slideIn .5s ease both; }
+
+/* -- THÊM CSS MỚI ĐỂ ẨN LỜI CHÚC VÀ TẠO NÚT XEM THÊM -- */
+.hidden-wish {
+  display: none;
+}
+.wishes__wall-container {
+  display: flex;
+  flex-direction: column;
+}
+/* ----------------------------------------------------- */
+
+@keyframes slideIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:none} }
 
 /* ══════════════════════════════════════
    GIFT MODAL
@@ -1055,18 +1082,35 @@ footer {
       </div>
 
       <div class="wishes__wall" id="wish-wall">
-        <div class="wish-card">
-          <div class="wish-card__author">Bạn Bè Thân Thiết</div>
-          <p class="wish-card__text">Chúc mừng hạnh phúc hai bạn! Mãi yêu thương nhau đến đầu bạc răng long nha. Chúc tổ ấm nhỏ luôn tràn ngập tiếng cười. 🥂</p>
+        <div class="wishes__wall-container">
+        <div class="wishes__wall" id="wish-wall">
+          <div class="wish-card">
+            <div class="wish-card__author">Bạn Bè Thân Thiết</div>
+            <p class="wish-card__text">Chúc mừng hạnh phúc hai bạn! Mãi yêu thương nhau đến đầu bạc răng long nha. Chúc tổ ấm nhỏ luôn tràn ngập tiếng cười. 🥂</p>
+          </div>
+          <div class="wish-card">
+            <div class="wish-card__author">Gia Đình Thân Yêu</div>
+            <p class="wish-card__text">Một chương mới đã mở ra với hai con. Ba mẹ mong cuộc sống mới tràn ngập hy vọng, hạnh phúc và bình an mãi mãi. ❤️</p>
+          </div>
+          <div class="wish-card">
+            <div class="wish-card__author">Đồng Nghiệp Yêu Quý</div>
+            <p class="wish-card__text">Chúc đôi uyên ương thuận vợ thuận chồng, sớm có tin vui cho mọi người cùng chung vui nhé! Hạnh phúc viên mãn! 💕</p>
+          </div>
+          
+          <div class="wish-card hidden-wish">
+            <div class="wish-card__author">Hội bạn thân cấp 3</div>
+            <p class="wish-card__text">Chúc hai bạn bách niên giai lão! Hóng ngày dự tiệc cưới của hai người! 🎉</p>
+          </div>
+          <div class="wish-card hidden-wish">
+            <div class="wish-card__author">Cô Chú Hàng Xóm</div>
+            <p class="wish-card__text">Mừng hạnh phúc hai cháu, chúc gia đình nhỏ luôn rộn vang tiếng cười. 🌸</p>
+          </div>
+          </div>
+        
+        <div style="text-align: center; margin-top: 1rem;">
+          <button id="btn-view-more-wishes" class="btn-view-more" onclick="showAllWishes()">Xem thêm lời chúc</button>
         </div>
-        <div class="wish-card">
-          <div class="wish-card__author">Gia Đình Thân Yêu</div>
-          <p class="wish-card__text">Một chương mới đã mở ra với hai con. Ba mẹ mong cuộc sống mới tràn ngập hy vọng, hạnh phúc và bình an mãi mãi. ❤️</p>
-        </div>
-        <div class="wish-card">
-          <div class="wish-card__author">Đồng Nghiệp Yêu Quý</div>
-          <p class="wish-card__text">Chúc đôi uyên ương thuận vợ thuận chồng, sớm có tin vui cho mọi người cùng chung vui nhé! Hạnh phúc viên mãn! 💕</p>
-        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -1238,17 +1282,40 @@ function fillWish(el) {
   document.getElementById('w-msg').value = el.textContent.trim();
   document.getElementById('w-msg').focus();
 }
+
 function sendWish() {
   const name = document.getElementById('w-name').value.trim();
   const msg  = document.getElementById('w-msg').value.trim();
   if (!name || !msg) { alert('Vui lòng điền tên và lời chúc!'); return; }
+  
   const wall = document.getElementById('wish-wall');
   const card = document.createElement('div');
   card.className = 'wish-card wish-card__new';
   card.innerHTML = `<div class="wish-card__author">${name}</div><p class="wish-card__text">${msg}</p>`;
+  
+  // Thêm lời chúc mới lên đầu
   wall.prepend(card);
+  
+  // Làm rỗng form sau khi gửi
   document.getElementById('w-name').value = '';
   document.getElementById('w-msg').value  = '';
+  
+  // Tùy chọn: Tự động cuộn đến danh sách lời chúc để người dùng thấy
+  document.getElementById('wish-wall').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* Hàm xử lý khi bấm nút "Xem thêm lời chúc" */
+function showAllWishes() {
+    // 1. Tìm tất cả các phần tử có class 'hidden-wish' và bỏ class đó đi
+    const hiddenWishes = document.querySelectorAll('.hidden-wish');
+    hiddenWishes.forEach(wish => {
+        wish.classList.remove('hidden-wish');
+        // Thêm hiệu ứng trượt nhẹ cho các lời chúc vừa hiện ra
+        wish.classList.add('wish-card__new'); 
+    });
+    
+    // 2. Ẩn nút "Xem thêm"
+    document.getElementById('btn-view-more-wishes').style.display = 'none';
 }
 
 /* ── Gift modal ── */
