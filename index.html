@@ -317,6 +317,79 @@ img  { display:block; max-width:100%; height:auto; }
 #gallery { background:var(--cream); }
 
 #lightgallery {
+  margin: 0 -6px; 
+  padding: 0;
+  list-style: none;
+}
+#lightgallery li {
+  padding: 6px; 
+  margin-bottom: 0; 
+  float: left;
+  width: 33.333%; 
+}
+/* -- THÊM CSS MỚI ĐỂ ẨN ẢNH -- */
+#lightgallery li.hidden-img {
+    display: none; /* Ẩn các ảnh có class này đi */
+}
+/* -------------------------- */
+
+#lightgallery li a {
+  display: block;
+  overflow: hidden;
+  border-radius: 6px; 
+  position: relative;
+  box-shadow: 0 4px 10px rgba(122,59,40,0.06);
+}
+#lightgallery li img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+#lightgallery li a:hover img {
+  transform: scale(1.05);
+}
+.demo-gallery-poster {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#lightgallery li a:hover .demo-gallery-poster {
+  opacity: 1;
+}
+.demo-gallery-poster img {
+  width: 30px !important; 
+  height: 30px !important;
+}
+
+/* Nút Xem Thêm */
+.btn-view-more {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--rose);
+  background: transparent;
+  border: 1px solid var(--rose);
+  border-radius: 40px;
+  padding: .6rem 1.8rem;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.btn-view-more:hover {
+  background: var(--rose);
+  color: var(--white);
+}
+
+#lightgallery {
   margin: 0 -6px; /* Bù trừ khoảng cách giữa các ảnh */
   padding: 0;
   list-style: none;
@@ -792,79 +865,26 @@ footer {
     <div class="demo-gallery rv d1">
         <ul id="lightgallery" class="list-unstyled row">
             
-            <li data-src="anh7.JPG">
-                <a href="">
-                    <img src="anh7.JPG" alt="Ảnh cưới">
-                    <div class="demo-gallery-poster">
-                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
-                    </div>
-                </a>
-            </li>
+            <li data-src="anh7.JPG"><a href=""><img src="anh7.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh8.JPG"><a href=""><img src="anh8.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh9.JPG"><a href=""><img src="anh9.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh10.JPG"><a href=""><img src="anh10.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh11.JPG"><a href=""><img src="anh11.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh12.JPG"><a href=""><img src="anh12.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh13.JPG"><a href=""><img src="anh13.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh14.JPG"><a href=""><img src="anh14.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh1.JPG"><a href=""><img src="anh1.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh2.JPG"><a href=""><img src="anh2.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh3.JPG"><a href=""><img src="anh3.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li data-src="anh4.JPG"><a href=""><img src="anh4.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
 
-            <li data-src="anh8.JPG">
-                <a href="">
-                    <img src="anh8.JPG" alt="Ảnh cưới">
-                    <div class="demo-gallery-poster">
-                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
-                    </div>
-                </a>
-            </li>
+            <li class="hidden-img" data-src="anh5.JPG"><a href=""><img src="anh5.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            <li class="hidden-img" data-src="anh6.JPG"><a href=""><img src="anh6.JPG" alt="Ảnh cưới"><div class="demo-gallery-poster"><img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png"></div></a></li>
+            </ul>
+    </div>
 
-            <li data-src="anh9.JPG">
-                <a href="">
-                    <img src="anh9.JPG" alt="Ảnh cưới">
-                    <div class="demo-gallery-poster">
-                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
-                    </div>
-                </a>
-            </li>
-
-            <li data-src="anh10.JPG">
-                <a href="">
-                    <img src="anh10.JPG" alt="Ảnh cưới">
-                    <div class="demo-gallery-poster">
-                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
-                    </div>
-                </a>
-            </li>
-
-            <li data-src="anh11.JPG">
-                <a href="">
-                    <img src="anh11.JPG" alt="Ảnh cưới">
-                    <div class="demo-gallery-poster">
-                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
-                    </div>
-                </a>
-            </li>
-
-            <li data-src="anh12.JPG">
-                <a href="">
-                    <img src="anh12.JPG" alt="Ảnh cưới">
-                    <div class="demo-gallery-poster">
-                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
-                    </div>
-                </a>
-            </li>
-
-            <li data-src="anh13.JPG">
-                <a href="">
-                    <img src="anh13.JPG" alt="Ảnh cưới">
-                    <div class="demo-gallery-poster">
-                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
-                    </div>
-                </a>
-            </li>
-
-            <li data-src="anh14.JPG">
-                <a href="">
-                    <img src="anh14.JPG" alt="Ảnh cưới">
-                    <div class="demo-gallery-poster">
-                        <img src="https://sachinchoolur.github.io/lightGallery/static/img/zoom.png">
-                    </div>
-                </a>
-            </li>
-
-        </ul>
+    <div style="text-align: center;" class="rv d2">
+        <button id="btn-view-more" class="btn-view-more" onclick="showAllImages()">Xem tất cả</button>
     </div>
 
     <p style="text-align:center;margin-top:2rem;font-size:.72rem;font-weight:300;font-style:italic;color:var(--muted)" class="rv d2">
@@ -1109,22 +1129,56 @@ footer {
 
 <script>
 /* ── KÍCH HOẠT MASONRY & LIGHTGALLERY ── */
+var $grid; // Biến dùng chung để gọi lại Masonry
+
 $(document).ready(function() {
-    // Kích hoạt xem ảnh phóng to
+    // Kích hoạt xem ảnh phóng to (chỉ kích hoạt các ảnh đang hiển thị)
     lightGallery(document.getElementById('lightgallery'), {
         plugins: [lgZoom, lgFullscreen],
         speed: 500,
         mode: 'lg-fade',
+        selector: 'li:not(.hidden-img)' // Quan trọng: Chỉ đưa ảnh đang hiện vào danh sách lightbox lúc ban đầu
     });
 
-    // Kích hoạt lưới so le Masonry sau khi ảnh load xong
-    var $grid = $('#lightgallery').imagesLoaded( function() {
+    // Kích hoạt lưới so le Masonry
+    $grid = $('#lightgallery').imagesLoaded( function() {
         $grid.masonry({
-            itemSelector: 'li',
+            itemSelector: 'li:not(.hidden-img)', // Chỉ sắp xếp các ảnh đang hiện
             percentPosition: true
         });
     });
 });
+
+/* Hàm xử lý khi bấm nút "Xem tất cả" */
+function showAllImages() {
+    // 1. Gỡ bỏ class 'hidden-img' khỏi tất cả các <li>
+    $('.hidden-img').removeClass('hidden-img');
+    
+    // 2. Ẩn nút "Xem tất cả"
+    $('#btn-view-more').hide();
+    
+    // 3. Gọi Masonry sắp xếp lại toàn bộ lưới ảnh sau khi đã hiện thêm
+    $grid.imagesLoaded( function() {
+        $grid.masonry('destroy'); // Hủy masonry cũ
+        $grid.masonry({           // Khởi tạo lại với toàn bộ ảnh
+            itemSelector: 'li',
+            percentPosition: true
+        });
+    });
+
+    // 4. Khởi động lại LightGallery để nó nhận diện đủ tất cả hình ảnh
+    var lg = window.lightGallery(document.getElementById('lightgallery'));
+    if(lg) {
+        lg.destroy(true); // Hủy gallery cũ
+    }
+    // Khởi tạo lại gallery mới với TẤT CẢ thẻ li
+    lightGallery(document.getElementById('lightgallery'), {
+        plugins: [lgZoom, lgFullscreen],
+        speed: 500,
+        mode: 'lg-fade',
+        selector: 'li' 
+    });
+}
 
 /* ── Nav scroll ── */
 window.addEventListener('scroll', () => {
