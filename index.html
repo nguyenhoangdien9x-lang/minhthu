@@ -1173,21 +1173,19 @@ footer {
 
 <script>
 /* ── KÍCH HOẠT MASONRY & LIGHTGALLERY ── */
-var $grid; // Biến dùng chung để gọi lại Masonry
-
 $(document).ready(function() {
-    // Kích hoạt xem ảnh phóng to (chỉ kích hoạt các ảnh đang hiển thị)
+    // 1. Kích hoạt LightGallery cho TẤT CẢ các ảnh (kể cả ảnh đang bị ẩn class hidden-img)
     lightGallery(document.getElementById('lightgallery'), {
         plugins: [lgZoom, lgFullscreen],
         speed: 500,
         mode: 'lg-fade',
-        selector: 'li:not(.hidden-img)' // Quan trọng: Chỉ đưa ảnh đang hiện vào danh sách lightbox lúc ban đầu
+        selector: 'li' // Bắt toàn bộ thẻ li để khách vuốt được hết album
     });
 
-    // Kích hoạt lưới so le Masonry
-    $grid = $('#lightgallery').imagesLoaded( function() {
+    // 2. Kích hoạt Masonry chỉ cho các ảnh đang hiển thị trên web để không bị lỗi đè layout
+    var $grid = $('#lightgallery').imagesLoaded( function() {
         $grid.masonry({
-            itemSelector: 'li:not(.hidden-img)', // Chỉ sắp xếp các ảnh đang hiện
+            itemSelector: 'li:not(.hidden-img)',
             percentPosition: true
         });
     });
@@ -1195,6 +1193,10 @@ $(document).ready(function() {
 
 /* Hàm xử lý khi bấm nút "Xem tất cả" */
 function showAllImages() {
+    // Đơn giản là giả lập thao tác click vào bức ảnh đầu tiên 
+    // Hệ thống sẽ tự động bật pop-up xem ảnh lướt qua lại cho toàn bộ album
+    document.querySelector('#lightgallery li').click();
+} {
     // 1. Gỡ bỏ class 'hidden-img' khỏi tất cả các <li>
     $('.hidden-img').removeClass('hidden-img');
     
