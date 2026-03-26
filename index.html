@@ -312,25 +312,30 @@ img  { display:block; max-width:100%; height:auto; }
 }
 
 /* ══════════════════════════════════════
-   GALLERY (MASONRY & LIGHTBOX)
+   GALLERY (SỬ DỤNG CSS COLUMNS THAY VÌ MASONRY JS)
 ══════════════════════════════════════ */
 #gallery { background:var(--cream); }
 
 #lightgallery {
-  margin: 0 -6px; 
+  margin: 0; 
   padding: 0;
   list-style: none;
+  /* Dùng CSS Columns thay cho JS Masonry để tránh lỗi tải ảnh */
+  column-count: 3;
+  column-gap: 12px;
 }
+
 #lightgallery li {
-  padding: 6px; 
-  margin-bottom: 0; 
-  width: 33.333%; 
+  margin-bottom: 12px; /* Khoảng cách dọc giữa các ảnh */
+  break-inside: avoid; /* Tránh ảnh bị cắt đôi giữa các cột */
+  display: inline-block;
+  width: 100%;
 }
-/* -- THÊM CSS MỚI ĐỂ ẨN ẢNH -- */
+
+/* Ẩn các ảnh có class hidden-img */
 #lightgallery li.hidden-img {
-    display: none; /* Ẩn các ảnh có class này đi */
+    display: none; 
 }
-/* -------------------------- */
 
 #lightgallery li a {
   display: block;
@@ -339,15 +344,18 @@ img  { display:block; max-width:100%; height:auto; }
   position: relative;
   box-shadow: 0 4px 10px rgba(122,59,40,0.06);
 }
+
 #lightgallery li img {
   width: 100%;
   height: auto;
   display: block;
   transition: transform 0.5s ease;
 }
+
 #lightgallery li a:hover img {
   transform: scale(1.05);
 }
+
 .demo-gallery-poster {
   position: absolute;
   inset: 0;
@@ -358,9 +366,11 @@ img  { display:block; max-width:100%; height:auto; }
   align-items: center;
   justify-content: center;
 }
+
 #lightgallery li a:hover .demo-gallery-poster {
   opacity: 1;
 }
+
 .demo-gallery-poster img {
   width: 30px !important; 
   height: 30px !important;
@@ -388,51 +398,12 @@ img  { display:block; max-width:100%; height:auto; }
   color: var(--white);
 }
 
-#lightgallery {
-  margin: 0 -6px; /* Bù trừ khoảng cách giữa các ảnh */
-  padding: 0;
-  list-style: none;
+/* Cho màn hình nhỏ (Điện thoại) thì chia 2 cột */
+@media (max-width: 640px) {
+    #lightgallery {
+        column-count: 2;
+    }
 }
-#lightgallery li {
-  padding: 6px; 
-  margin-bottom: 0; 
-  float: left;
-  width: 33.333%; /* 3 cột trên máy tính */
-}
-#lightgallery li a {
-  display: block;
-  overflow: hidden;
-  border-radius: 6px; 
-  position: relative;
-  box-shadow: 0 4px 10px rgba(122,59,40,0.06);
-}
-#lightgallery li img {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: transform 0.5s ease;
-}
-#lightgallery li a:hover img {
-  transform: scale(1.05);
-}
-.demo-gallery-poster {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.15);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#lightgallery li a:hover .demo-gallery-poster {
-  opacity: 1;
-}
-.demo-gallery-poster img {
-  width: 30px !important; 
-  height: 30px !important;
-}
-
 /* ══════════════════════════════════════
    EVENTS
 ══════════════════════════════════════ */
@@ -1163,39 +1134,26 @@ footer {
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
-<script src="https://unpkg.com/masonry-layout@4/masonry.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/fullscreen/lg-fullscreen.min.js"></script>
 
 <script>
-/* ── KÍCH HOẠT MASONRY & LIGHTGALLERY ── */
+/* ── KÍCH HOẠT LIGHTGALLERY ── */
 $(document).ready(function() {
-    // 1. Kích hoạt LightGallery cho TẤT CẢ các ảnh
+    // Kích hoạt LightGallery cho TẤT CẢ các ảnh
     lightGallery(document.getElementById('lightgallery'), {
         plugins: [lgZoom, lgFullscreen],
         speed: 500,
         mode: 'lg-fade',
-        selector: 'li'
-    });
-
-    // 2. Kích hoạt Masonry
-    var $grid = $('#lightgallery').masonry({
-        itemSelector: 'li:not(.hidden-img)',
-        percentPosition: true,
-        transitionDuration: '0.3s' // Thêm hiệu ứng xếp ảnh mượt mà
-    });
-
-    // 3. QUAN TRỌNG NHẤT: Bắt nó tính toán lại chiều cao MỖI KHI có 1 ảnh tải xong
-    $grid.imagesLoaded().progress( function() {
-        $grid.masonry('layout');
+        selector: 'li' // Bắt toàn bộ thẻ li để khách vuốt được hết album
     });
 });
 
 /* Hàm xử lý khi bấm nút "Xem tất cả" */
 function showAllImages() {
-    // Kích hoạt xem ảnh pop-up từ bức ảnh đầu tiên
+    // Đơn giản là giả lập thao tác click vào bức ảnh đầu tiên 
+    // Hệ thống sẽ tự động bật pop-up xem ảnh lướt qua lại cho toàn bộ album
     document.querySelector('#lightgallery li:first-child a').click();
 }
 window.addEventListener('scroll', () => {
