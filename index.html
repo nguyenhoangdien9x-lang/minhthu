@@ -381,7 +381,22 @@ img  { display:block; max-width:100%; height:auto; }
 .modal__bank-key { font-weight:300; color:var(--muted); }
 .modal__bank-val { font-weight:500; color:var(--ink); }
 .modal__sep { height:1px; background:var(--line); }
-
+/* Style cho QR Code */
+.modal__qr {
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+.modal__qr img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: var(--white);
+  margin: 0 auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
 /* ══════════════════════════════════════
    FOOTER
 ══════════════════════════════════════ */
@@ -738,21 +753,35 @@ footer { background:var(--deep); text-align:center; padding:clamp(3.5rem,7vw,5.5
       <button class="modal__close" onclick="closeGift()">✕</button>
     </div>
     <div class="modal__body">
+      
       <div class="modal__person">
         <p class="modal__person-title">Mừng cưới Chú Rể</p>
         <p class="modal__person-name">Hoàng Diện</p>
-        <div class="modal__bank-row"><span class="modal__bank-key">Ngân hàng</span><span class="modal__bank-val">Vietcombank</span></div>
-        <div class="modal__bank-row"><span class="modal__bank-key">Chủ tài khoản</span><span class="modal__bank-val">HOÀNG DIỆN</span></div>
-        <div class="modal__bank-row"><span class="modal__bank-key">Số tài khoản</span><span class="modal__bank-val">1234 567 890</span></div>
+        
+        <div class="modal__qr">
+          <img src="qr-dien.jpg" alt="QR Code Hoàng Diện" onerror="this.style.display='none'">
+        </div>
+
+        <div class="modal__bank-row"><span class="modal__bank-key">Ngân hàng</span><span class="modal__bank-val">Vietinbank</span></div>
+        <div class="modal__bank-row"><span class="modal__bank-key">Chủ tài khoản</span><span class="modal__bank-val">NGUYEN HOANG DIEN</span></div>
+        <div class="modal__bank-row"><span class="modal__bank-key">Số tài khoản</span><span class="modal__bank-val">104866821458</span></div>
       </div>
+      
       <div class="modal__sep"></div>
+      
       <div class="modal__person">
         <p class="modal__person-title">Mừng cưới Cô Dâu</p>
         <p class="modal__person-name">Minh Thư</p>
-        <div class="modal__bank-row"><span class="modal__bank-key">Ngân hàng</span><span class="modal__bank-val">MBBank</span></div>
-        <div class="modal__bank-row"><span class="modal__bank-key">Chủ tài khoản</span><span class="modal__bank-val">MINH THƯ</span></div>
-        <div class="modal__bank-row"><span class="modal__bank-key">Số tài khoản</span><span class="modal__bank-val">9876 543 210</span></div>
+
+        <div class="modal__qr">
+          <img src="qr-thu.jpg" alt="QR Code Minh Thư" onerror="this.style.display='none'">
+        </div>
+
+        <div class="modal__bank-row"><span class="modal__bank-key">Ngân hàng</span><span class="modal__bank-val">Vietcombank</span></div>
+        <div class="modal__bank-row"><span class="modal__bank-key">Chủ tài khoản</span><span class="modal__bank-val">LE THI MINH THU</span></div>
+        <div class="modal__bank-row"><span class="modal__bank-key">Số tài khoản</span><span class="modal__bank-val">1015375896</span></div>
       </div>
+
     </div>
   </div>
 </div>
