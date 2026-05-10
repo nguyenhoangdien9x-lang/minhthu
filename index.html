@@ -446,6 +446,29 @@ footer { background:var(--deep); text-align:center; padding:clamp(3.5rem,7vw,5.5
 .heart-container { position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
 .heart { position:absolute; top:-40px; font-size:1.2rem; opacity:0; animation:heartFall linear infinite; }
 @keyframes heartFall { 0% { opacity:0; transform:translateY(0) rotate(0deg); } 10% { opacity:.8; } 90% { opacity:.6; } 100% { opacity:0; transform:translateY(110vh) rotate(360deg); } }
+/* ══════════════════════════════════════
+   TĂNG KÍCH THƯỚC CÁC DÒNG CHỮ NHỎ
+══════════════════════════════════════ */
+
+/* 1. Nhóm chữ rất nhỏ (Menu, Nút bấm, Thẻ tag, Ngày tháng, Footer) */
+.nav__links a, .hero__btn, .hero__scroll, .sh__tag, .cd__lbl, 
+.event-card__title, .event-card__map, .rsvp__label, .btn-rsvp, 
+.wish-form__label, .btn-wish, .btn-view-more, .chip, 
+.modal__person-title, .footer__date, .footer__copy, .float-bar__btn {
+    font-size: 0.85rem !important; 
+}
+
+/* 2. Nhóm chữ nhỏ vừa (Nội dung sự kiện, Ô nhập liệu, Nội dung lời chúc) */
+.event-card__info, .rsvp__input, .rsvp__select, .rsvp__toggle-btn, 
+.rsvp__msg, .wish-form__input, .wish-form__textarea, 
+.wish-card__text, .modal__bank-row {
+    font-size: 1.05rem !important; 
+}
+
+/* 3. Nhóm câu phụ đề dưới tiêu đề (Trích dẫn, Lời ngỏ) */
+.hero__eyebrow, .sh__sub, .cd__quote {
+    font-size: 1.15rem !important; 
+}
 </style>
 </head>
 <body>
