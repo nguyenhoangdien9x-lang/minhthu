@@ -109,7 +109,11 @@ img  { display:block; max-width:100%; height:auto; }
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; padding:7rem var(--gutter) 4rem;
   position:relative; overflow:hidden;
-  background-attachment: fixed; /* Hiệu ứng parallax nhẹ */
+  @media (max-width: 768px), 
+       (-webkit-min-device-pixel-ratio: 2) and (max-width: 1024px) {
+  #home {
+    background-attachment: scroll; /* ← tắt parallax trên iOS/mobile */
+  }
 }
 
 /* corner florals */
@@ -960,9 +964,11 @@ function sendWish() {
   
   // Đẩy dữ liệu ngầm lên Google Sheets
   fetch(WISHES_API_URL, {
-      method: 'POST',
-      body: JSON.stringify(newWish) // Đã bỏ no-cors để bắt lỗi tốt hơn
-  })
+    method: 'POST',
+    mode: 'no-cors',                                    // ← thêm dòng này
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newWish)
+})
   .then(response => {
       // Khôi phục nút
       btn.textContent = originalText;
