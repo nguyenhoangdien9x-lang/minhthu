@@ -371,3 +371,14 @@ footer {
     46.66% { opacity: 0; }
     100% { opacity: 0; }
 }
+/* --- HIỆU ỨNG SCROLL REVEAL (XUẤT HIỆN KHI CUỘN TỚI) --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px); /* Kéo element xuống dưới 50px */
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Hiệu ứng mượt mà (easing) */
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0); /* Trả về vị trí cũ */
+}
