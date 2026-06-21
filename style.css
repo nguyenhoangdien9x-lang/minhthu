@@ -382,3 +382,73 @@ footer {
     opacity: 1;
     transform: translateY(0); /* Trả về vị trí cũ */
 }
+/* --- KHU VỰC VIDEO PHIM CƯỚI --- */
+.video-section {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: var(--bg-color); /* Có thể đổi thành var(--alt-bg-color) nếu muốn đổi màu nền xen kẽ */
+}
+
+.sub-heading {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin: 50px 0 30px 0;
+}
+
+/* Bố cục cho 1 hoặc 2 video chính (chia 2 cột trên máy tính) */
+.main-videos {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 30px;
+}
+
+/* Bố cục cho nhiều clip ngắn (chia 3 cột hoặc nhiều hơn) */
+.short-videos-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Giữ đúng tỷ lệ khung hình 16:9 cho video YouTube */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Tính năng CSS hiện đại, giữ tỷ lệ chuẩn */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.video-wrapper:hover {
+    transform: translateY(-5px);
+}
+
+/* Nếu bạn nhúng YouTube Shorts (Video dọc), dùng class này */
+.video-wrapper.short-video {
+    aspect-ratio: 9 / 16;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Tối ưu hóa giao diện Video trên điện thoại */
+@media screen and (max-width: 768px) {
+    .main-videos {
+        grid-template-columns: 1fr; /* Trở về 1 cột trên điện thoại */
+    }
+    
+    .short-videos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Các clip ngắn nhỏ lại chút */
+    }
+}
