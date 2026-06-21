@@ -201,3 +201,31 @@ footer {
 @media screen and (max-width: 480px) {
     .masonry-grid { column-count: 1; }
 }
+/* Giao diện cho từng Lời chúc lấy từ Google Sheets */
+.wish-item {
+    background: var(--bg-color);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+    text-align: left;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.wish-item h4 {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.wish-item .wish-text {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    white-space: pre-line; /* Giữ lại các dấu xuống dòng trong lời chúc */
+}
+
+.wish-item .wish-time {
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+}
