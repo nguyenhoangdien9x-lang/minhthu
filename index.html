@@ -555,22 +555,6 @@ footer { background:var(--deep); text-align:center; padding:clamp(3.5rem,7vw,5.5
   </div>
 </section>
 
-<section id="countdown">
-  <div class="wrap">
-    <div class="sh rv">
-      <span class="sh__tag">Đếm Ngược</span>
-      <h2 class="sh__title">Ngày Trọng Đại</h2>
-    </div>
-    <div class="cd rv d1">
-      <div class="cd__box"><span class="cd__num" id="cd-d">00</span><span class="cd__lbl">Ngày</span></div>
-      <div class="cd__box"><span class="cd__num" id="cd-h">00</span><span class="cd__lbl">Giờ</span></div>
-      <div class="cd__box"><span class="cd__num" id="cd-m">00</span><span class="cd__lbl">Phút</span></div>
-      <div class="cd__box"><span class="cd__num" id="cd-s">00</span><span class="cd__lbl">Giây</span></div>
-    </div>
-    <p class="cd__quote rv d2">"Tình yêu không phải là nhìn vào mắt nhau, mà là cùng nhìn về một hướng."</p>
-  </div>
-</section>
-
 <section id="gallery" class="sec">
   <div class="wrap">
     <div class="sh rv">
@@ -881,7 +865,11 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
-/* ── Countdown ── */
+/* ── Load Wishes (Đã bỏ Countdown) ── */
+document.addEventListener('DOMContentLoaded', function() {
+  // Load wishes when page loads
+  loadWishes();
+});
 document.addEventListener('DOMContentLoaded', function() {
   var wed = new Date(2026, 5, 1, 6, 0, 0);
 
