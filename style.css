@@ -250,3 +250,58 @@ footer {
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(196, 154, 69, 0.2);
 }
+/* Giao diện Form gửi lời chúc */
+.wish-form-container {
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    background: var(--bg-color);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+#wish-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#wish-form input, #wish-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#wish-form input:focus, #wish-form textarea:focus {
+    border-color: var(--accent-color);
+}
+
+.btn-submit {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #a88135; /* Màu tối hơn chút */
+    transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
