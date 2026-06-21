@@ -4,6 +4,31 @@ let displayedCount = 0;
 const wishesPerPage = 5; // Thay đổi số này nếu bạn muốn hiện nhiều hoặc ít hơn mỗi lượt
 
 document.addEventListener('DOMContentLoaded', function() {
+    // === HIỆU ỨNG TRƯỢT LÊN KHI CUỘN TRANG (SCROLL REVEAL) ===
+    const reveals = document.querySelectorAll('.reveal');
+
+    // Cài đặt độ nhạy: Phần tử hiện ra khoảng 15% màn hình thì mới kích hoạt hiệu ứng
+    const revealOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                return;
+            } else {
+                // Thêm class 'active' để chạy CSS transition
+                entry.target.classList.add('active');
+                // Hủy theo dõi sau khi đã hiện ra để tối ưu hiệu năng
+                observer.unobserve(entry.target);
+            }
+        });
+    }, revealOptions);
+
+    reveals.forEach(reveal => {
+        revealOnScroll.observe(reveal);
+    });
     // === XỬ LÝ GỬI FORM LỜI CHÚC MỚI ===
     const wishForm = document.getElementById('wish-form');
     const submitBtn = document.getElementById('submit-wish-btn');
