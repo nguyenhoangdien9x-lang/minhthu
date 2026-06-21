@@ -58,14 +58,19 @@
         </div>
     </section>
 
-    <section id="loichuc" class="wishes-section alt-bg">
-        <h2>Lời Chúc Mừng</h2>
-        <p>Những tình cảm trân quý từ mọi người</p>
-        <!-- Khu vực Lời Chúc -->
-    <section id="loichuc" class="wishes-section alt-bg">
+   <section id="loichuc" class="wishes-section alt-bg">
         <h2>Lời Chúc Mừng</h2>
         <p>Những tình cảm trân quý từ mọi người</p>
         
+        <div class="wish-form-container">
+            <form id="wish-form">
+                <input type="text" id="sender-name" name="name" placeholder="Tên của bạn" required>
+                <textarea id="sender-wish" name="wish" placeholder="Viết lời chúc của bạn ở đây..." rows="4" required></textarea>
+                <button type="submit" id="submit-wish-btn" class="btn-submit">Gửi Lời Chúc</button>
+            </form>
+            <div id="form-message" style="display: none; margin-top: 10px; color: var(--accent-color); font-weight: bold;"></div>
+        </div>
+
         <div class="wishes-container" id="wishes-container">
             <p style="text-align: center; color: #888;">Đang tải lời chúc...</p>
         </div>
