@@ -475,7 +475,7 @@ footer { background:var(--deep); text-align:center; padding:clamp(3.5rem,7vw,5.5
 
 <nav class="nav" id="nav">
   <a class="nav__logo" href="#home">HD &amp; MT</a>
-  <ul class="nav__links">
+
     <li><a href="#couple"  onclick="closeDrw()">Cặp Đôi</a></li>
     <li><a href="#gallery" onclick="closeDrw()">Album</a></li>
     <li><a href="#events"  onclick="closeDrw()">Sự Kiện</a></li>
@@ -648,77 +648,6 @@ footer { background:var(--deep); text-align:center; padding:clamp(3.5rem,7vw,5.5
           </div>
           <a href="https://maps.app.goo.gl/6BEdC8j5mkZtK9Gp9" target="_blank" class="event-card__map">📍 Xem bản đồ</a>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="rsvp" class="sec">
-  <div class="wrap">
-    <div class="sh rv">
-      <span class="sh__tag">Xác Nhận</span>
-      <h2 class="sh__title">Bạn Có Tham Dự Không?</h2>
-      <div class="floral-divider rv d1"><span class="floral-icon">❀</span></div>
-      <p class="sh__sub rv d1">Vui lòng xác nhận trước ngày <strong style="color:var(--rose)">20/05/2026</strong> để chúng mình chuẩn bị chu đáo nhất nhé!</p>
-    </div>
-
-    <div class="rsvp__wrap rv d1">
-      <label class="rsvp__label">Bạn sẽ tham dự chứ?</label>
-      <div class="rsvp__toggle">
-        <button class="rsvp__toggle-btn active" id="btn-yes" onclick="pickAttend('yes')">🥂 Tất nhiên rồi!</button>
-        <button class="rsvp__toggle-btn"        id="btn-no"  onclick="pickAttend('no')">🙏 Rất tiếc, mình bận</button>
-      </div>
-
-      <div class="rsvp__field">
-        <label class="rsvp__label">Tên của bạn *</label>
-        <input class="rsvp__input" id="rs-name" type="text" placeholder="Nguyễn Văn A">
-      </div>
-
-      <div class="rsvp__field">
-        <label class="rsvp__label">Số người đi cùng</label>
-        <div class="rsvp__select-wrap">
-          <select class="rsvp__select" id="rs-guests">
-            <option value="1">Chỉ mình tôi</option>
-            <option value="2">2 người</option>
-            <option value="3">3 người</option>
-            <option value="4">4 người</option>
-            <option value="5+">5 người trở lên</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="rsvp__field">
-        <label class="rsvp__label">Bạn của</label>
-        <div class="rsvp__select-wrap">
-          <select class="rsvp__select" id="rs-side">
-            <option value="Cô dâu (Minh Thư)">💐 Cô dâu — Minh Thư</option>
-            <option value="Chú rể (Hoàng Diện)">🤵 Chú rể — Hoàng Diện</option>
-            <option value="Cả hai">💑 Cả hai</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="rsvp__field">
-        <label class="rsvp__label">Bạn sẽ tham gia tiệc nào?</label>
-        <div class="rsvp__select-wrap">
-          <select class="rsvp__select" id="rs-party">
-            <option value="Tiệc Vu Quy (Nhà cô dâu)">🌸 Tiệc Vu Quy — Nhà cô dâu</option>
-            <option value="Tiệc Thành Hôn (Nhà chú rể)">💍 Tiệc Thành Hôn — Nhà chú rể</option>
-            <option value="Tiệc Báo Hỷ (Sài Gòn)">🎉 Tiệc Báo Hỷ — Sài Gòn</option>
-          </select>
-        </div>
-      </div>
-
-      <button class="btn-rsvp" id="btn-rsvp" onclick="submitRsvp()">Gửi Xác Nhận 💌</button>
-
-      <div class="rsvp__msg" id="rsvp-ok">
-        🎉 Cảm ơn bạn! Chúng mình rất vui khi được gặp bạn trong ngày trọng đại. Hẹn gặp bạn nhé! ❤️
-      </div>
-      <div class="rsvp__msg" id="rsvp-sorry">
-        💌 Cảm ơn bạn đã thông báo! Chúng mình rất tiếc khi bạn không thể tham dự. Chúc bạn mọi điều tốt đẹp nhé!
-      </div>
-      <div class="rsvp__msg" id="rsvp-err">
-        ⚠️ Có lỗi xảy ra, vui lòng thử lại sau!
       </div>
     </div>
   </div>
@@ -1021,26 +950,6 @@ function closeGiftOutside(e) { if (e.target === document.getElementById('gift-mo
     container.appendChild(h);
   }
 })();
-
-/* ══ RSVP → Google Sheets ══ */
-var attendChoice = 'yes';
-function pickAttend(v) {
-  attendChoice = v;
-  document.getElementById('btn-yes').classList.toggle('active', v === 'yes');
-  document.getElementById('btn-no').classList.toggle('active',  v === 'no');
-}
-
-function submitRsvp() {
-  var name   = document.getElementById('rs-name').value.trim();
-  var guests = document.getElementById('rs-guests').value;
-  var side   = document.getElementById('rs-side').value;
-  var party  = document.getElementById('rs-party').value;
-
-  if (!name) {
-    document.getElementById('rs-name').focus();
-    document.getElementById('rs-name').style.borderColor = 'var(--rose)';
-    return;
-  }
 
   var btn = document.getElementById('btn-rsvp');
   btn.disabled = true;
