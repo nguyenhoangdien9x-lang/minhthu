@@ -4,6 +4,53 @@ let displayedCount = 0;
 const wishesPerPage = 5; // Thay đổi số này nếu bạn muốn hiện nhiều hoặc ít hơn mỗi lượt
 
 document.addEventListener('DOMContentLoaded', function() {
+    // === XỬ LÝ GỬI FORM LỜI CHÚC MỚI ===
+    const wishForm = document.getElementById('wish-form');
+    const submitBtn = document.getElementById('submit-wish-btn');
+    const formMessage = document.getElementById('form-message');
+
+    // THAY ĐƯỜNG LINK NÀY BẰNG WEB APP URL CỦA BẠN (Từ Bước 1)
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxE0OGh5LMh-BDC69Jn-NPt8MdBPTdFvdBCng2cYEvINhmb0VKsTyy2MHrXrDJ9m5M9Bw/exec';
+
+    wishForm.addEventListener('submit', e => {
+        e.preventDefault(); // Ngăn chặn trang bị reload khi bấm gửi
+        
+        // Đổi trạng thái nút thành đang gửi
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Đang gửi...';
+        formMessage.style.display = 'none';
+
+        // Lấy dữ liệu từ form để chuẩn bị gửi
+        const formData = new FormData(wishForm);
+
+        fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                if(data.result === 'success') {
+                    // Thông báo thành công và xóa trắng form
+                    formMessage.innerText = 'Cảm ơn bạn! Lời chúc đã được gửi thành công.';
+                    formMessage.style.color = 'var(--accent-color)';
+                    formMessage.style.display = 'block';
+                    wishForm.reset();
+                    
+                    // Tải lại danh sách lời chúc để hiện ngay lời chúc vừa gửi
+                    loadWishes();
+                } else {
+                    throw new Error('Lỗi từ server');
+                }
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                formMessage.innerText = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
+                formMessage.style.color = 'red';
+                formMessage.style.display = 'block';
+            })
+            .finally(() => {
+                // Trả lại trạng thái bình thường cho nút bấm
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Gửi Lời Chúc';
+            });
+    });
     // === TÍNH NĂNG LIGHTBOX XEM ẢNH ===
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
