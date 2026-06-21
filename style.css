@@ -229,3 +229,24 @@ footer {
     color: #888;
     font-style: italic;
 }
+/* Nút Xem thêm lời chúc */
+.btn-load-more {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    padding: 10px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-load-more:hover {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(196, 154, 69, 0.2);
+}
