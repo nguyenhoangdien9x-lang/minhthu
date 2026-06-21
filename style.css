@@ -1,0 +1,203 @@
+/* Biến màu sắc hỗ trợ Dark Mode & Light Mode */
+:root {
+    --bg-color: #fcfcfc;
+    --alt-bg-color: #f4f4f4;
+    --text-color: #333333;
+    --accent-color: #c49a45; /* Màu vàng đồng tinh tế */
+    --nav-bg: rgba(255, 255, 255, 0.95);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #121212;
+        --alt-bg-color: #1e1e1e;
+        --text-color: #f1f1f1;
+        --nav-bg: rgba(18, 18, 18, 0.95);
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth; /* Cuộn trang mượt */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Thanh điều hướng */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--nav-bg);
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Banner */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1920x1080') center/cover;
+    color: #fff;
+    padding-top: 60px;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-family: 'Georgia', serif;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+}
+
+/* Khu vực chung */
+.gallery-section, .wishes-section {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.alt-bg {
+    background-color: var(--alt-bg-color);
+}
+
+h2 {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 5px;
+}
+
+.date {
+    font-style: italic;
+    margin-bottom: 40px;
+    color: #888;
+}
+
+/* Lưới ảnh Masonry */
+.masonry-grid {
+    column-count: 3;
+    column-gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-img {
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s;
+}
+
+.gallery-img:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+
+/* Lời chúc Container */
+.wishes-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px;
+    background-color: #111;
+    color: #888;
+}
+
+/* Lightbox (Xem ảnh phóng to) */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 85vh;
+    object-fit: contain;
+    animation: zoomIn 0.3s ease;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@keyframes zoomIn {
+    from {transform: scale(0.8)}
+    to {transform: scale(1)}
+}
+
+/* Responsive cho điện thoại */
+@media screen and (max-width: 768px) {
+    .masonry-grid { column-count: 2; }
+    .hero h1 { font-size: 2.5rem; }
+    .navbar { flex-direction: column; padding: 10px; }
+    .nav-links { margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+}
+
+@media screen and (max-width: 480px) {
+    .masonry-grid { column-count: 1; }
+}
