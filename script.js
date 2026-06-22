@@ -4,6 +4,38 @@ let displayedCount = 0;
 const wishesPerPage = 5; // Thay đổi số này nếu bạn muốn hiện nhiều hoặc ít hơn mỗi lượt
 
 document.addEventListener('DOMContentLoaded', function() {
+    // === TỰ ĐỘNG KÉO ẢNH TỪ GOOGLE DRIVE THÔNG QUA APPS SCRIPT ===
+    
+    // Thay link Web app URL của bạn vào đây
+    const driveScriptUrl = 'https://script.google.com/macros/s/AKfycbzA1susK5FBHaZ7QP0k7HeT4zMwD9O_miowORd5HT0f38Ssexd14FkInJMQS2XGzSrh/exec';
+    
+    fetch(driveScriptUrl)
+        .then(response => response.json())
+        .then(urls => {
+            const grid = document.getElementById('grid-vuquy');
+            grid.innerHTML = ''; // Xóa chữ "Đang tải..."
+            
+            // Chạy vòng lặp tạo thẻ img cho từng link lấy được
+            urls.forEach((url, index) => {
+                const imgElement = document.createElement('img');
+                imgElement.src = url;
+                imgElement.alt = `Ảnh Vu Quy ${index + 1}`;
+                imgElement.className = 'gallery-img reveal active'; // Thêm class hiệu ứng
+                imgElement.loading = 'lazy'; // Cực kỳ quan trọng để web không bị đơ
+                
+                // Thêm sự kiện click để mở Lightbox phóng to
+                imgElement.addEventListener("click", function() {
+                    document.getElementById("lightbox").style.display = "block";
+                    document.getElementById("lightbox-img").src = this.src;
+                });
+                
+                grid.appendChild(imgElement);
+            });
+        })
+        .catch(error => {
+            console.error("Lỗi khi tải ảnh:", error);
+            document.getElementById('grid-vuquy').innerHTML = '<p>Không thể tải ảnh lúc này.</p>';
+        });
     // === HIỆU ỨNG TRƯỢT LÊN KHI CUỘN TRANG (SCROLL REVEAL) ===
     const reveals = document.querySelectorAll('.reveal');
 
