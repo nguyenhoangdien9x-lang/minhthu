@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 2. Kích hoạt lấy ảnh từ Google Drive cho Lễ Tân Hôn
     // THAY ĐƯỜNG LINK WEB APP URL (Dành riêng cho thư mục Tân Hôn) VÀO ĐÂY
-    const scriptUrlTanHon = 'LINK_APPS_SCRIPT_CUA_THU_MUC_TAN_HON';
+    const scriptUrlTanHon = 'https://script.google.com/macros/s/AKfycbzjdu7Hq_YnfOUkKtg-Ol8tpON1Iw-zjMciupMlzIIaIs_tCd8fyPgnzMjLgf_AXs8/exec';
     
     loadImagesFromDrive('grid-tanhon', scriptUrlTanHon);
 });
