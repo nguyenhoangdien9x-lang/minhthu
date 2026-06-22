@@ -1,39 +1,137 @@
-// Khai báo các biến toàn cục để quản lý phân trang lời chúc
+// === CÁC BIẾN TOÀN CỤC ===
 let allWishes = [];
 let displayedCount = 0;
-const wishesPerPage = 5; // Thay đổi số này nếu bạn muốn hiện nhiều hoặc ít hơn mỗi lượt
+const wishesPerPage = 5; // Số lời chúc hiện mỗi lần bấm xem thêm
 
+// === CHẠY KHI TRANG WEB VỪA TẢI XONG ===
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Kích hoạt hiệu ứng cuộn trang (Reveal)
+    
+    // 1. Kích hoạt lấy ảnh từ Google Drive cho Lễ Tân Hôn
+    const scriptUrlTanHon = 'https://script.google.com/macros/s/AKfycbzjdu7Hq_YnfOUkKtg-Ol8tpON1Iw-zjMciupMlzIIaIs_tCd8fyPgnzMjLgf_AXs8/exec';
+    loadImagesFromDrive('grid-tanhon', scriptUrlTanHon);
+
+    // 2. Kích hoạt hiệu ứng cuộn trang (Reveal) lần đầu
     initScrollReveal();
 
-    // 2. Kích hoạt lấy ảnh từ Google Drive cho Lễ Tân Hôn
-    // THAY ĐƯỜNG LINK WEB APP URL (Dành riêng cho thư mục Tân Hôn) VÀO ĐÂY
-    const scriptUrlTanHon = 'https://script.google.com/macros/s/AKfycbzjdu7Hq_YnfOUkKtg-Ol8tpON1Iw-zjMciupMlzIIaIs_tCd8fyPgnzMjLgf_AXs8/exec';
-    
-    loadImagesFromDrive('grid-tanhon', scriptUrlTanHon);
-});
+    // 3. Xử lý Form Gửi Lời Chúc
+    const wishForm = document.getElementById('wish-form');
+    const submitBtn = document.getElementById('submit-wish-btn');
+    const formMessage = document.getElementById('form-message');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxE0OGh5LMh-BDC69Jn-NPt8MdBPTdFvdBCng2cYEvINhmb0VKsTyy2MHrXrDJ9m5M9Bw/exec';
+
+    if (wishForm) {
+        wishForm.addEventListener('submit', e => {
+            e.preventDefault(); 
+            
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Đang gửi...';
+            formMessage.style.display = 'none';
+
+            const formData = new FormData(wishForm);
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.result === 'success') {
+                        formMessage.innerText = 'Cảm ơn bạn! Lời chúc đã được gửi thành công.';
+                        formMessage.style.color = 'var(--accent-color)';
+                        formMessage.style.display = 'block';
+                        wishForm.reset();
+                        loadWishes(); // Tải lại danh sách
+                    } else {
+                        throw new Error('Lỗi từ server');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    formMessage.innerText = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
+                    formMessage.style.color = 'red';
+                    formMessage.style.display = 'block';
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = 'Gửi Lời Chúc';
+                });
+        });
+    }
+
+    // 4. Xử lý Lightbox (Xem ảnh phóng to)
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const closeBtn = document.querySelector(".close-btn");
+    const images = document.querySelectorAll(".gallery-img");
+
+    if (lightbox && closeBtn) {
+        images.forEach(img => {
+            img.addEventListener("click", function() {
+                lightbox.style.display = "block";
+                lightboxImg.src = this.src;
+            });
+        });
+
+        closeBtn.addEventListener("click", function() {
+            lightbox.style.display = "none";
+        });
+
+        lightbox.addEventListener("click", function(e) {
+            if (e.target !== lightboxImg) {
+                lightbox.style.display = "none";
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && lightbox.style.display === "block") {
+                lightbox.style.display = "none";
+            }
+        });
+    }
+
+    // 5. Tự động lấy lời chúc từ Sheets và xử lý nút Xem thêm
+    loadWishes();
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', renderMoreWishes);
+    }
+
+}); // === KẾT THÚC KHỐI DOMContentLoaded ===
+
+
+// ==========================================
+// === CÁC HÀM HỖ TRỢ (NẰM NGOÀI ĐỂ TÁI SỬ DỤNG) ===
+// ==========================================
+
+// Hàm khởi tạo hiệu ứng Reveal (xuất hiện khi cuộn)
+function initScrollReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Ngừng theo dõi khi đã hiện
+            }
+        });
+    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
+    reveals.forEach(el => observer.observe(el));
+}
 
 // Hàm lấy ảnh từ Drive
 function loadImagesFromDrive(gridId, scriptUrl) {
     const grid = document.getElementById(gridId);
-    
-    // Kiểm tra xem cái ID có tồn tại trong HTML không trước khi chạy để tránh lỗi chữ đỏ
     if (!grid) return; 
 
     fetch(scriptUrl)
         .then(response => response.json())
         .then(urls => {
-            grid.innerHTML = ''; // Xóa dòng chữ "Đang tải..."
+            grid.innerHTML = ''; 
             
             urls.forEach((url, index) => {
                 const imgElement = document.createElement('img');
                 imgElement.src = url;
-                imgElement.alt = `Tân Hôn ${index + 1}`;
+                imgElement.alt = `Ảnh ${index + 1}`;
                 imgElement.className = 'gallery-img reveal';
                 imgElement.loading = 'lazy';
                 
-                // Sự kiện click xem ảnh to
                 imgElement.addEventListener("click", function() {
                     const lightbox = document.getElementById("lightbox");
                     const lightboxImg = document.getElementById("lightbox-img");
@@ -43,7 +141,7 @@ function loadImagesFromDrive(gridId, scriptUrl) {
                 
                 grid.appendChild(imgElement);
             });
-            // Cập nhật lại hiệu ứng Reveal sau khi ảnh hiện ra
+            // Quét lại hiệu ứng Reveal cho các ảnh vừa tạo ra
             initScrollReveal();
         })
         .catch(error => {
@@ -52,130 +150,7 @@ function loadImagesFromDrive(gridId, scriptUrl) {
         });
 }
 
-// Hàm khởi tạo hiệu ứng Reveal (xu hướng 2026)
-function initScrollReveal() {
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    reveals.forEach(el => observer.observe(el));
-}
-    // === HIỆU ỨNG TRƯỢT LÊN KHI CUỘN TRANG (SCROLL REVEAL) ===
-    const reveals = document.querySelectorAll('.reveal');
-
-    // Cài đặt độ nhạy: Phần tử hiện ra khoảng 15% màn hình thì mới kích hoạt hiệu ứng
-    const revealOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-    };
-
-    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                return;
-            } else {
-                // Thêm class 'active' để chạy CSS transition
-                entry.target.classList.add('active');
-                // Hủy theo dõi sau khi đã hiện ra để tối ưu hiệu năng
-                observer.unobserve(entry.target);
-            }
-        });
-    }, revealOptions);
-
-    reveals.forEach(reveal => {
-        revealOnScroll.observe(reveal);
-    });
-    // === XỬ LÝ GỬI FORM LỜI CHÚC MỚI ===
-    const wishForm = document.getElementById('wish-form');
-    const submitBtn = document.getElementById('submit-wish-btn');
-    const formMessage = document.getElementById('form-message');
-
-    // THAY ĐƯỜNG LINK NÀY BẰNG WEB APP URL CỦA BẠN (Từ Bước 1)
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxE0OGh5LMh-BDC69Jn-NPt8MdBPTdFvdBCng2cYEvINhmb0VKsTyy2MHrXrDJ9m5M9Bw/exec';
-
-    wishForm.addEventListener('submit', e => {
-        e.preventDefault(); // Ngăn chặn trang bị reload khi bấm gửi
-        
-        // Đổi trạng thái nút thành đang gửi
-        submitBtn.disabled = true;
-        submitBtn.innerText = 'Đang gửi...';
-        formMessage.style.display = 'none';
-
-        // Lấy dữ liệu từ form để chuẩn bị gửi
-        const formData = new FormData(wishForm);
-
-        fetch(scriptURL, { method: 'POST', body: formData })
-            .then(response => response.json())
-            .then(data => {
-                if(data.result === 'success') {
-                    // Thông báo thành công và xóa trắng form
-                    formMessage.innerText = 'Cảm ơn bạn! Lời chúc đã được gửi thành công.';
-                    formMessage.style.color = 'var(--accent-color)';
-                    formMessage.style.display = 'block';
-                    wishForm.reset();
-                    
-                    // Tải lại danh sách lời chúc để hiện ngay lời chúc vừa gửi
-                    loadWishes();
-                } else {
-                    throw new Error('Lỗi từ server');
-                }
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                formMessage.innerText = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
-                formMessage.style.color = 'red';
-                formMessage.style.display = 'block';
-            })
-            .finally(() => {
-                // Trả lại trạng thái bình thường cho nút bấm
-                submitBtn.disabled = false;
-                submitBtn.innerText = 'Gửi Lời Chúc';
-            });
-    });
-    // === TÍNH NĂNG LIGHTBOX XEM ẢNH ===
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const closeBtn = document.querySelector(".close-btn");
-    const images = document.querySelectorAll(".gallery-img");
-
-    images.forEach(img => {
-        img.addEventListener("click", function() {
-            lightbox.style.display = "block";
-            lightboxImg.src = this.src;
-        });
-    });
-
-    closeBtn.addEventListener("click", function() {
-        lightbox.style.display = "none";
-    });
-
-    lightbox.addEventListener("click", function(e) {
-        if (e.target !== lightboxImg) {
-            lightbox.style.display = "none";
-        }
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === "Escape" && lightbox.style.display === "block") {
-            lightbox.style.display = "none";
-        }
-    });
-
-    // === TÍNH NĂNG TỰ ĐỘNG LẤY VÀ PHÂN TRANG LỜI CHÚC ===
-    loadWishes();
-
-    // Lắng nghe sự kiện click vào nút Xem thêm
-    const loadMoreBtn = document.getElementById('load-more-btn');
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', renderMoreWishes);
-    }
-});
-
+// Hàm lấy lời chúc từ Sheets
 function loadWishes() {
     const sheetId = '1GljxDQcyBITzHgAxsL9ROI_vsSX_xzu6_iIZLsaEwX4';
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=0`;
@@ -187,7 +162,7 @@ function loadWishes() {
             const json = JSON.parse(jsonStr);
             const rows = json.table.rows;
             
-            allWishes = []; // Reset dữ liệu mảng cũ
+            allWishes = []; 
 
             rows.forEach(row => {
                 if (row.c && row.c[1] && row.c[2]) {
@@ -195,41 +170,42 @@ function loadWishes() {
                     const name = row.c[1].v;
                     const wish = row.c[2].v;
 
-                    // Bỏ qua dòng tiêu đề của Google Sheets
                     if (name !== "Tên người chúc") {
                         allWishes.push({ time, name, wish });
                     }
                 }
             });
 
-            // ĐẢO NGƯỢC MẢNG: Lời chúc nhập sau (mới nhất) sẽ đảo lên vị trí đầu tiên
             allWishes.reverse();
 
-            // Xóa chữ "Đang tải lời chúc..."
             const container = document.getElementById('wishes-container');
-            container.innerHTML = '';
-            displayedCount = 0;
-
-            // Gọi hàm hiển thị lượt đầu tiên
-            renderMoreWishes();
+            if (container) {
+                container.innerHTML = '';
+                displayedCount = 0;
+                renderMoreWishes();
+            }
         })
         .catch(error => {
             console.error("Lỗi tải dữ liệu từ Sheets:", error);
-            document.getElementById('wishes-container').innerHTML = '<p>Không thể kết nối đến danh sách lời chúc lúc này.</p>';
+            const container = document.getElementById('wishes-container');
+            if (container) {
+                container.innerHTML = '<p>Không thể kết nối đến danh sách lời chúc lúc này.</p>';
+            }
         });
 }
 
+// Hàm render từng cụm lời chúc
 function renderMoreWishes() {
     const container = document.getElementById('wishes-container');
     const loadMoreBtn = document.getElementById('load-more-btn');
     
-    // Cắt mảng lấy ra số lượng lời chúc cần hiển thị tiếp theo
+    if (!container) return;
+
     const nextBatch = allWishes.slice(displayedCount, displayedCount + wishesPerPage);
     
-    // Tạo HTML cho từng lời chúc và chèn vào giao diện
     nextBatch.forEach(item => {
         const wishElement = document.createElement('div');
-        wishElement.className = 'wish-item';
+        wishElement.className = 'wish-item reveal active'; // Thêm active để không bị đè CSS ẩn
         wishElement.innerHTML = `
             <h4>${item.name}</h4>
             <p class="wish-text">${item.wish}</p>
@@ -238,13 +214,13 @@ function renderMoreWishes() {
         container.appendChild(wishElement);
     });
 
-    // Cập nhật lại số lượng lời chúc đã hiển thị lên màn hình
     displayedCount += nextBatch.length;
 
-    // Kiểm tra xem đã hiển thị hết toàn bộ lời chúc chưa để ẩn/hiện nút
-    if (displayedCount >= allWishes.length) {
-        loadMoreBtn.style.display = 'none'; // Ẩn nút nếu đã hiện hết
-    } else {
-        loadMoreBtn.style.display = 'inline-block'; // Hiện nút nếu còn lời chúc chưa xem
+    if (loadMoreBtn) {
+        if (displayedCount >= allWishes.length) {
+            loadMoreBtn.style.display = 'none'; 
+        } else {
+            loadMoreBtn.style.display = 'inline-block'; 
+        }
     }
 }
