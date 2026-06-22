@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // === TỰ ĐỘNG KÉO ẢNH TỪ GOOGLE DRIVE THÔNG QUA APPS SCRIPT ===
     
     // Thay link Web app URL của bạn vào đây
-    const driveScriptUrl = 'https://script.google.com/macros/s/AKfycbzA1susK5FBHaZ7QP0k7HeT4zMwD9O_miowORd5HT0f38Ssexd14FkInJMQS2XGzSrh/exec';
+    const driveScriptUrl = 'https://script.google.com/macros/s/AKfycbzjdu7Hq_YnfOUkKtg-Ol8tpON1Iw-zjMciupMlzIIaIs_tCd8fyPgnzMjLgf_AXs8/exec';
     
     fetch(driveScriptUrl)
         .then(response => response.json())
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             urls.forEach((url, index) => {
                 const imgElement = document.createElement('img');
                 imgElement.src = url;
-                imgElement.alt = `Ảnh Vu Quy ${index + 1}`;
+                imgElement.alt = `Tân Hôn ${index + 1}`;
                 imgElement.className = 'gallery-img reveal active'; // Thêm class hiệu ứng
                 imgElement.loading = 'lazy'; // Cực kỳ quan trọng để web không bị đơ
                 
