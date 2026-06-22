@@ -4,38 +4,67 @@ let displayedCount = 0;
 const wishesPerPage = 5; // Thay đổi số này nếu bạn muốn hiện nhiều hoặc ít hơn mỗi lượt
 
 document.addEventListener('DOMContentLoaded', function() {
-    // === TỰ ĐỘNG KÉO ẢNH TỪ GOOGLE DRIVE THÔNG QUA APPS SCRIPT ===
+    // 1. Kích hoạt hiệu ứng cuộn trang (Reveal)
+    initScrollReveal();
+
+    // 2. Kích hoạt lấy ảnh từ Google Drive cho Lễ Tân Hôn
+    // THAY ĐƯỜNG LINK WEB APP URL (Dành riêng cho thư mục Tân Hôn) VÀO ĐÂY
+    const scriptUrlTanHon = 'LINK_APPS_SCRIPT_CUA_THU_MUC_TAN_HON';
     
-    // Thay link Web app URL của bạn vào đây
-    const driveScriptUrl = 'https://script.google.com/macros/s/AKfycbzjdu7Hq_YnfOUkKtg-Ol8tpON1Iw-zjMciupMlzIIaIs_tCd8fyPgnzMjLgf_AXs8/exec';
+    loadImagesFromDrive('grid-tanhon', scriptUrlTanHon);
+});
+
+// Hàm lấy ảnh từ Drive
+function loadImagesFromDrive(gridId, scriptUrl) {
+    const grid = document.getElementById(gridId);
     
-    fetch(driveScriptUrl)
+    // Kiểm tra xem cái ID có tồn tại trong HTML không trước khi chạy để tránh lỗi chữ đỏ
+    if (!grid) return; 
+
+    fetch(scriptUrl)
         .then(response => response.json())
         .then(urls => {
-            const grid = document.getElementById('grid-vuquy');
-            grid.innerHTML = ''; // Xóa chữ "Đang tải..."
+            grid.innerHTML = ''; // Xóa dòng chữ "Đang tải..."
             
-            // Chạy vòng lặp tạo thẻ img cho từng link lấy được
             urls.forEach((url, index) => {
                 const imgElement = document.createElement('img');
                 imgElement.src = url;
                 imgElement.alt = `Tân Hôn ${index + 1}`;
-                imgElement.className = 'gallery-img reveal active'; // Thêm class hiệu ứng
-                imgElement.loading = 'lazy'; // Cực kỳ quan trọng để web không bị đơ
+                imgElement.className = 'gallery-img reveal';
+                imgElement.loading = 'lazy';
                 
-                // Thêm sự kiện click để mở Lightbox phóng to
+                // Sự kiện click xem ảnh to
                 imgElement.addEventListener("click", function() {
-                    document.getElementById("lightbox").style.display = "block";
-                    document.getElementById("lightbox-img").src = this.src;
+                    const lightbox = document.getElementById("lightbox");
+                    const lightboxImg = document.getElementById("lightbox-img");
+                    lightbox.style.display = "block";
+                    lightboxImg.src = this.src;
                 });
                 
                 grid.appendChild(imgElement);
             });
+            // Cập nhật lại hiệu ứng Reveal sau khi ảnh hiện ra
+            initScrollReveal();
         })
         .catch(error => {
-            console.error("Lỗi khi tải ảnh:", error);
-            document.getElementById('grid-vuquy').innerHTML = '<p>Không thể tải ảnh lúc này.</p>';
+            console.error("Lỗi:", error);
+            grid.innerHTML = '<p>Không thể tải ảnh. Vui lòng kiểm tra lại kết nối.</p>';
         });
+}
+
+// Hàm khởi tạo hiệu ứng Reveal (xu hướng 2026)
+function initScrollReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+}
     // === HIỆU ỨNG TRƯỢT LÊN KHI CUỘN TRANG (SCROLL REVEAL) ===
     const reveals = document.querySelectorAll('.reveal');
 
