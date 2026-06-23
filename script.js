@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         formMessage.style.color = 'var(--accent-color)';
                         formMessage.style.display = 'block';
                         wishForm.reset();
-                        loadWishes(); // Tải lại danh sách
+                        loadWishes(); 
                     } else {
                         throw new Error('Lỗi từ server');
                     }
@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const images = document.querySelectorAll(".gallery-img");
 
     if (lightbox && closeBtn) {
-        // Áp dụng cho các ảnh HTML mặc định (nếu còn)
         images.forEach(img => {
             img.addEventListener("click", function() {
                 lightbox.style.display = "block";
@@ -106,17 +105,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // ==========================================
-// === CÁC HÀM HỖ TRỢ (NẰM NGOÀI ĐỂ TÁI SỬ DỤNG) ===
+// === CÁC HÀM HỖ TRỢ ===
 // ==========================================
 
-// Hàm khởi tạo hiệu ứng Reveal (xuất hiện khi cuộn)
 function initScrollReveal() {
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Ngừng theo dõi khi đã hiện
+                observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
@@ -124,7 +122,6 @@ function initScrollReveal() {
     reveals.forEach(el => observer.observe(el));
 }
 
-// Hàm lấy ảnh từ Drive
 function loadImagesFromDrive(gridId, scriptUrl) {
     const grid = document.getElementById(gridId);
     if (!grid) return; 
@@ -150,7 +147,6 @@ function loadImagesFromDrive(gridId, scriptUrl) {
                 
                 grid.appendChild(imgElement);
             });
-            // Quét lại hiệu ứng Reveal cho các ảnh vừa tạo ra
             initScrollReveal();
         })
         .catch(error => {
@@ -159,7 +155,6 @@ function loadImagesFromDrive(gridId, scriptUrl) {
         });
 }
 
-// Hàm lấy lời chúc từ Sheets
 function loadWishes() {
     const sheetId = '1GljxDQcyBITzHgAxsL9ROI_vsSX_xzu6_iIZLsaEwX4';
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=0`;
@@ -203,7 +198,6 @@ function loadWishes() {
         });
 }
 
-// Hàm render từng cụm lời chúc
 function renderMoreWishes() {
     const container = document.getElementById('wishes-container');
     const loadMoreBtn = document.getElementById('load-more-btn');
