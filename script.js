@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadImagesFromDrive('grid-tanhon', scriptUrlTanHon);
 
     // 1B. Kích hoạt lấy ảnh từ Google Drive cho Tiệc Báo Hỷ
-    const scriptUrlBaoHy = 'https://script.google.com/macros/s/AKfycbzVRKmv8PBQ1z8x2lzhGhafoX-WsZdGYplf-emJ2CimrKjC0Kr-oWm-ijqFfA8Z_KfC/exec';
+    const scriptUrlBaoHy = 'https://script.google.com/macros/s/AKfycbzkFVpV7FWCWCNCStaorROIKT6Nz9hyVarNSgUfHdmspLMu7CndEoXb5nkXO4CEj907/exec';
     loadImagesFromDrive('grid-baohy', scriptUrlBaoHy);
 
     // 1C. Kích hoạt lấy ảnh từ Google Drive cho Lễ Vu Quy
