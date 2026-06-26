@@ -7,7 +7,7 @@ const wishesPerPage = 5; // Số lời chúc hiện mỗi lần bấm xem thêm
 document.addEventListener('DOMContentLoaded', function() {
     
     // 1A. Kích hoạt lấy ảnh từ Google Drive cho Lễ Tân Hôn
-    const scriptUrlTanHon = 'https://script.google.com/macros/s/AKfycbzjdu7Hq_YnfOUkKtg-Ol8tpON1Iw-zjMciupMlzIIaIs_tCd8fyPgnzMjLgf_AXs8/exec';
+    const scriptUrlTanHon = 'https://script.google.com/macros/s/AKfycbwrkeMvrl_9ilXx7_QFK_VXAcHtjxY8JhBB0IiBBld_ke_i73q7ZuBWvePTMD3sBBdK/exec';
     loadImagesFromDrive('grid-tanhon', scriptUrlTanHon);
 
     // 1B. Kích hoạt lấy ảnh từ Google Drive cho Tiệc Báo Hỷ
