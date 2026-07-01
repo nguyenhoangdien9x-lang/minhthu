@@ -1,20 +1,29 @@
 // === CÁC BIẾN TOÀN CỤC ===
 let allWishes = [];
 let displayedCount = 0;
-const wishesPerPage = 5; // Số lời chúc hiện mỗi lần bấm xem thêm
+const wishesPerPage = 5; 
+
+// Biến lưu trữ toàn bộ ảnh cho tính năng Gallery Lightbox
+const galleryData = {
+    'grid-tanhon': [],
+    'grid-baohy': [],
+    'grid-vuquy': []
+};
+let currentGallery = [];
+let currentIndex = 0;
 
 // === CHẠY KHI TRANG WEB VỪA TẢI XONG ===
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1A. Kích hoạt lấy ảnh từ Google Drive cho Lễ Tân Hôn
-    const scriptUrlTanHon = 'https://script.google.com/macros/s/AKfycbwrkeMvrl_9ilXx7_QFK_VXAcHtjxY8JhBB0IiBBld_ke_i73q7ZuBWvePTMD3sBBdK/exec';
+    // 1A. Kích hoạt lấy ảnh Lễ Tân Hôn
+    const scriptUrlTanHon = 'https://script.google.com/macros/s/AKfycbzjdu7Hq_YnfOUkKtg-Ol8tpON1Iw-zjMciupMlzIIaIs_tCd8fyPgnzMjLgf_AXs8/exec';
     loadImagesFromDrive('grid-tanhon', scriptUrlTanHon);
 
-    // 1B. Kích hoạt lấy ảnh từ Google Drive cho Tiệc Báo Hỷ
-    const scriptUrlBaoHy = 'https://script.google.com/macros/s/AKfycbzkFVpV7FWCWCNCStaorROIKT6Nz9hyVarNSgUfHdmspLMu7CndEoXb5nkXO4CEj907/exec';
+    // 1B. Kích hoạt lấy ảnh Tiệc Báo Hỷ
+    const scriptUrlBaoHy = 'https://script.google.com/macros/s/AKfycbzVRKmv8PBQ1z8x2lzhGhafoX-WsZdGYplf-emJ2CimrKjC0Kr-oWm-ijqFfA8Z_KfC/exec';
     loadImagesFromDrive('grid-baohy', scriptUrlBaoHy);
 
-    // 1C. Kích hoạt lấy ảnh từ Google Drive cho Lễ Vu Quy
+    // 1C. Kích hoạt lấy ảnh Lễ Vu Quy
     const scriptUrlVuQuy = 'https://script.google.com/macros/s/AKfycbyfI2BN8GPl4F236Bg1Kz0dUu9oM-VGf20n-LYU8cWkf_CgpU_A1XU8mMjMNHSrkgO6Vw/exec';
     loadImagesFromDrive('grid-vuquy', scriptUrlVuQuy);
 
@@ -22,6 +31,158 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollReveal();
 
     // 3. Xử lý Form Gửi Lời Chúc
+    setupWishForm();
+
+    // 4. Xử lý sự kiện cho Cửa sổ xem ảnh phóng to (Lightbox)
+    setupLightbox();
+
+    // 5. Tự động lấy lời chúc từ Sheets
+    loadWishes();
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', renderMoreWishes);
+    }
+});
+
+
+// ==========================================
+// === CÁC HÀM XỬ LÝ HÌNH ẢNH (GALLERY) ===
+// ==========================================
+
+function loadImagesFromDrive(gridId, scriptUrl) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return; 
+
+    fetch(scriptUrl)
+        .then(response => response.json())
+        .then(urls => {
+            // Lưu toàn bộ link ảnh vào bộ nhớ ảo
+            galleryData[gridId] = urls; 
+            grid.innerHTML = ''; 
+            
+            // CHỈ HIỂN THỊ TỐI ĐA 20 ẢNH ĐỂ WEB LOAD NHANH
+            const maxDisplay = 20;
+            const displayCount = Math.min(urls.length, maxDisplay);
+            
+            for(let i = 0; i < displayCount; i++) {
+                const imgElement = document.createElement('img');
+                imgElement.src = urls[i];
+                imgElement.className = 'gallery-img reveal';
+                imgElement.loading = 'lazy';
+                
+                // Bấm vào ảnh nào thì mở Lightbox từ ảnh đó
+                imgElement.onclick = () => openLightbox(gridId, i);
+                grid.appendChild(imgElement);
+            }
+
+            // Nếu số ảnh nhiều hơn 20, tạo nút "Xem toàn bộ ảnh"
+            if (urls.length > maxDisplay) {
+                const btnContainer = document.createElement('div');
+                btnContainer.style.width = "100%";
+                btnContainer.style.textAlign = "center";
+                btnContainer.style.marginTop = "30px";
+                
+                const btn = document.createElement('button');
+                btn.className = 'btn-load-more btn-gallery-more';
+                btn.innerText = `Xem toàn bộ album (${urls.length} ảnh)`;
+                // Bấm nút thì mở Lightbox từ tấm ảnh đầu tiên (index 0)
+                btn.onclick = () => openLightbox(gridId, 0);
+                
+                btnContainer.appendChild(btn);
+                // Đặt nút ở dưới cùng của khu vực ảnh
+                grid.insertAdjacentElement('afterend', btnContainer);
+            }
+            
+            initScrollReveal();
+        })
+        .catch(error => {
+            console.error("Lỗi:", error);
+            grid.innerHTML = '<p>Không thể tải ảnh. Vui lòng kiểm tra lại kết nối.</p>';
+        });
+}
+
+// Mở cửa sổ xem ảnh
+function openLightbox(gridId, index) {
+    currentGallery = galleryData[gridId];
+    currentIndex = index;
+    updateLightbox();
+    document.getElementById('lightbox').style.display = 'block';
+}
+
+// Cập nhật ảnh và link tải xuống trong Lightbox
+function updateLightbox() {
+    if (currentGallery.length === 0) return;
+    const url = currentGallery[currentIndex];
+    document.getElementById('lightbox-img').src = url;
+    document.getElementById('lightbox-download').href = url;
+}
+
+// Chuyển ảnh tiếp theo
+function showNextImage() {
+    if (currentGallery.length === 0) return;
+    currentIndex = (currentIndex + 1) % currentGallery.length; // Quay vòng lại từ đầu nếu hết
+    updateLightbox();
+}
+
+// Quay lại ảnh trước
+function showPrevImage() {
+    if (currentGallery.length === 0) return;
+    currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+    updateLightbox();
+}
+
+function setupLightbox() {
+    const lightbox = document.getElementById("lightbox");
+    const closeBtn = document.querySelector(".close-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const prevBtn = document.getElementById("prev-btn");
+
+    if (!lightbox) return;
+
+    // Bấm X để đóng
+    closeBtn.addEventListener("click", () => lightbox.style.display = "none");
+
+    // Bấm nút trái phải
+    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); showNextImage(); });
+    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); showPrevImage(); });
+
+    // Bấm ra ngoài vùng ảnh đen để đóng
+    lightbox.addEventListener("click", function(e) {
+        if (e.target === lightbox) { 
+            lightbox.style.display = "none";
+        }
+    });
+
+    // Dùng bàn phím để chuyển ảnh
+    document.addEventListener('keydown', function(e) {
+        if (lightbox.style.display === "block") {
+            if (e.key === "Escape") lightbox.style.display = "none";
+            if (e.key === "ArrowRight") showNextImage();
+            if (e.key === "ArrowLeft") showPrevImage();
+        }
+    });
+}
+
+
+// ==========================================
+// === CÁC HÀM XỬ LÝ KHÁC ===
+// ==========================================
+
+function initScrollReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
+    reveals.forEach(el => observer.observe(el));
+}
+
+function setupWishForm() {
     const wishForm = document.getElementById('wish-form');
     const submitBtn = document.getElementById('submit-wish-btn');
     const formMessage = document.getElementById('form-message');
@@ -62,97 +223,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         });
     }
-
-    // 4. Xử lý Lightbox (Xem ảnh phóng to)
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const closeBtn = document.querySelector(".close-btn");
-    const images = document.querySelectorAll(".gallery-img");
-
-    if (lightbox && closeBtn) {
-        images.forEach(img => {
-            img.addEventListener("click", function() {
-                lightbox.style.display = "block";
-                lightboxImg.src = this.src;
-            });
-        });
-
-        closeBtn.addEventListener("click", function() {
-            lightbox.style.display = "none";
-        });
-
-        lightbox.addEventListener("click", function(e) {
-            if (e.target !== lightboxImg) {
-                lightbox.style.display = "none";
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "Escape" && lightbox.style.display === "block") {
-                lightbox.style.display = "none";
-            }
-        });
-    }
-
-    // 5. Tự động lấy lời chúc từ Sheets và xử lý nút Xem thêm
-    loadWishes();
-    const loadMoreBtn = document.getElementById('load-more-btn');
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', renderMoreWishes);
-    }
-
-}); // === KẾT THÚC KHỐI DOMContentLoaded ===
-
-
-// ==========================================
-// === CÁC HÀM HỖ TRỢ ===
-// ==========================================
-
-function initScrollReveal() {
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
-
-    reveals.forEach(el => observer.observe(el));
-}
-
-function loadImagesFromDrive(gridId, scriptUrl) {
-    const grid = document.getElementById(gridId);
-    if (!grid) return; 
-
-    fetch(scriptUrl)
-        .then(response => response.json())
-        .then(urls => {
-            grid.innerHTML = ''; 
-            
-            urls.forEach((url, index) => {
-                const imgElement = document.createElement('img');
-                imgElement.src = url;
-                imgElement.alt = `Ảnh ${index + 1}`;
-                imgElement.className = 'gallery-img reveal';
-                imgElement.loading = 'lazy';
-                
-                imgElement.addEventListener("click", function() {
-                    const lightbox = document.getElementById("lightbox");
-                    const lightboxImg = document.getElementById("lightbox-img");
-                    lightbox.style.display = "block";
-                    lightboxImg.src = this.src;
-                });
-                
-                grid.appendChild(imgElement);
-            });
-            initScrollReveal();
-        })
-        .catch(error => {
-            console.error("Lỗi:", error);
-            grid.innerHTML = '<p>Không thể tải ảnh. Vui lòng kiểm tra lại kết nối.</p>';
-        });
 }
 
 function loadWishes() {
