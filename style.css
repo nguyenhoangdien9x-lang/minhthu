@@ -452,3 +452,51 @@ footer {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Các clip ngắn nhỏ lại chút */
     }
 }
+/* --- GIAO DIỆN NÚT BẤM TRONG LIGHTBOX --- */
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 20px;
+    user-select: none;
+    transition: 0.3s;
+    z-index: 2001;
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+.prev-btn:hover, .next-btn:hover { 
+    color: var(--accent-color); 
+}
+
+.download-btn {
+    position: absolute;
+    top: 25px;
+    left: 35px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    background-color: var(--accent-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s;
+    z-index: 2001;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.download-btn:hover {
+    background-color: #a88135;
+    transform: translateY(-2px);
+}
+
+/* Ẩn nút xem thêm tạm thời cho gọn */
+.btn-gallery-more {
+    margin-top: 30px;
+    display: inline-block;
+}
