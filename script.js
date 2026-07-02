@@ -3,7 +3,6 @@ let allWishes = [];
 let displayedCount = 0;
 const wishesPerPage = 5; 
 
-// Biến lưu trữ toàn bộ ảnh cho tính năng Gallery Lightbox
 const galleryData = {
     'grid-tanhon': [],
     'grid-baohy': [],
@@ -15,28 +14,19 @@ let currentIndex = 0;
 // === CHẠY KHI TRANG WEB VỪA TẢI XONG ===
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1A. Kích hoạt lấy ảnh Lễ Tân Hôn
     const scriptUrlTanHon = 'https://script.google.com/macros/s/AKfycbzjdu7Hq_YnfOUkKtg-Ol8tpON1Iw-zjMciupMlzIIaIs_tCd8fyPgnzMjLgf_AXs8/exec';
     loadImagesFromDrive('grid-tanhon', scriptUrlTanHon);
 
-    // 1B. Kích hoạt lấy ảnh Tiệc Báo Hỷ
     const scriptUrlBaoHy = 'https://script.google.com/macros/s/AKfycbzVRKmv8PBQ1z8x2lzhGhafoX-WsZdGYplf-emJ2CimrKjC0Kr-oWm-ijqFfA8Z_KfC/exec';
     loadImagesFromDrive('grid-baohy', scriptUrlBaoHy);
 
-    // 1C. Kích hoạt lấy ảnh Lễ Vu Quy
     const scriptUrlVuQuy = 'https://script.google.com/macros/s/AKfycbyfI2BN8GPl4F236Bg1Kz0dUu9oM-VGf20n-LYU8cWkf_CgpU_A1XU8mMjMNHSrkgO6Vw/exec';
     loadImagesFromDrive('grid-vuquy', scriptUrlVuQuy);
 
-    // 2. Kích hoạt hiệu ứng cuộn trang (Reveal) lần đầu
     initScrollReveal();
-
-    // 3. Xử lý Form Gửi Lời Chúc
     setupWishForm();
-
-    // 4. Xử lý sự kiện cho Cửa sổ xem ảnh phóng to (Lightbox)
     setupLightbox();
 
-    // 5. Tự động lấy lời chúc từ Sheets
     loadWishes();
     const loadMoreBtn = document.getElementById('load-more-btn');
     if (loadMoreBtn) {
@@ -44,10 +34,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
 // ==========================================
 // === CÁC HÀM XỬ LÝ HÌNH ẢNH (GALLERY) ===
 // ==========================================
+
+// Hàm siêu bóc tách ID ảnh từ bất kỳ loại link Google Drive nào
+function extractFileId(url) {
+    if (url.includes('/d/')) return url.split('/d/')[1].split('&')[0].split('/')[0];
+    if (url.includes('id=')) return url.split('id=')[1].split('&')[0];
+    return url; 
+}
 
 function loadImagesFromDrive(gridId, scriptUrl) {
     const grid = document.getElementById(gridId);
@@ -56,26 +52,26 @@ function loadImagesFromDrive(gridId, scriptUrl) {
     fetch(scriptUrl)
         .then(response => response.json())
         .then(urls => {
-            // Lưu toàn bộ link ảnh vào bộ nhớ ảo
+            // Lưu mảng gốc vào bộ nhớ
             galleryData[gridId] = urls; 
             grid.innerHTML = ''; 
             
-            // CHỈ HIỂN THỊ TỐI ĐA 20 ẢNH ĐỂ WEB LOAD NHANH
             const maxDisplay = 20;
             const displayCount = Math.min(urls.length, maxDisplay);
             
             for(let i = 0; i < displayCount; i++) {
+                const fileId = extractFileId(urls[i]);
                 const imgElement = document.createElement('img');
-                imgElement.src = urls[i];
+                
+                // 1. LINK NGOÀI LƯỚI: Nét vừa đủ (800px) để load cực nhanh
+                imgElement.src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
                 imgElement.className = 'gallery-img reveal';
                 imgElement.loading = 'lazy';
                 
-                // Bấm vào ảnh nào thì mở Lightbox từ ảnh đó
                 imgElement.onclick = () => openLightbox(gridId, i);
                 grid.appendChild(imgElement);
             }
 
-            // Nếu số ảnh nhiều hơn 20, tạo nút "Xem toàn bộ ảnh"
             if (urls.length > maxDisplay) {
                 const btnContainer = document.createElement('div');
                 btnContainer.style.width = "100%";
@@ -85,11 +81,9 @@ function loadImagesFromDrive(gridId, scriptUrl) {
                 const btn = document.createElement('button');
                 btn.className = 'btn-load-more btn-gallery-more';
                 btn.innerText = `Xem toàn bộ album (${urls.length} ảnh)`;
-                // Bấm nút thì mở Lightbox từ tấm ảnh đầu tiên (index 0)
                 btn.onclick = () => openLightbox(gridId, 0);
                 
                 btnContainer.appendChild(btn);
-                // Đặt nút ở dưới cùng của khu vực ảnh
                 grid.insertAdjacentElement('afterend', btnContainer);
             }
             
@@ -101,7 +95,6 @@ function loadImagesFromDrive(gridId, scriptUrl) {
         });
 }
 
-// Mở cửa sổ xem ảnh
 function openLightbox(gridId, index) {
     currentGallery = galleryData[gridId];
     currentIndex = index;
@@ -109,22 +102,25 @@ function openLightbox(gridId, index) {
     document.getElementById('lightbox').style.display = 'block';
 }
 
-// Cập nhật ảnh và link tải xuống trong Lightbox
 function updateLightbox() {
     if (currentGallery.length === 0) return;
-    const url = currentGallery[currentIndex];
-    document.getElementById('lightbox-img').src = url;
-    document.getElementById('lightbox-download').href = url;
+    
+    const rawUrl = currentGallery[currentIndex];
+    const fileId = extractFileId(rawUrl);
+
+    // 2. LINK PHÓNG TO: Độ phân giải cao (2000px) để xem sắc nét
+    document.getElementById('lightbox-img').src = `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`;
+    
+    // 3. LINK TẢI XUỐNG: Ép tải file chuẩn gốc .jpg về máy
+    document.getElementById('lightbox-download').href = `https://drive.google.com/uc?export=download&id=${fileId}`;
 }
 
-// Chuyển ảnh tiếp theo
 function showNextImage() {
     if (currentGallery.length === 0) return;
-    currentIndex = (currentIndex + 1) % currentGallery.length; // Quay vòng lại từ đầu nếu hết
+    currentIndex = (currentIndex + 1) % currentGallery.length; 
     updateLightbox();
 }
 
-// Quay lại ảnh trước
 function showPrevImage() {
     if (currentGallery.length === 0) return;
     currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
@@ -139,21 +135,16 @@ function setupLightbox() {
 
     if (!lightbox) return;
 
-    // Bấm X để đóng
     closeBtn.addEventListener("click", () => lightbox.style.display = "none");
-
-    // Bấm nút trái phải
     nextBtn.addEventListener("click", (e) => { e.stopPropagation(); showNextImage(); });
     prevBtn.addEventListener("click", (e) => { e.stopPropagation(); showPrevImage(); });
 
-    // Bấm ra ngoài vùng ảnh đen để đóng
     lightbox.addEventListener("click", function(e) {
         if (e.target === lightbox) { 
             lightbox.style.display = "none";
         }
     });
 
-    // Dùng bàn phím để chuyển ảnh
     document.addEventListener('keydown', function(e) {
         if (lightbox.style.display === "block") {
             if (e.key === "Escape") lightbox.style.display = "none";
@@ -163,9 +154,8 @@ function setupLightbox() {
     });
 }
 
-
 // ==========================================
-// === CÁC HÀM XỬ LÝ KHÁC ===
+// === CÁC HÀM XỬ LÝ LỜI CHÚC & HIỆU ỨNG ===
 // ==========================================
 
 function initScrollReveal() {
@@ -191,7 +181,6 @@ function setupWishForm() {
     if (wishForm) {
         wishForm.addEventListener('submit', e => {
             e.preventDefault(); 
-            
             submitBtn.disabled = true;
             submitBtn.innerText = 'Đang gửi...';
             formMessage.style.display = 'none';
