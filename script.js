@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const scriptUrlTanHon = 'https://script.google.com/macros/s/AKfycbzjdu7Hq_YnfOUkKtg-Ol8tpON1Iw-zjMciupMlzIIaIs_tCd8fyPgnzMjLgf_AXs8/exec';
     loadImagesFromDrive('grid-tanhon', scriptUrlTanHon);
 
-    const scriptUrlBaoHy = 'https://script.google.com/macros/s/AKfycbzNzCvNIaXA6-ReoM1UL2A0R8ojRJ19U4W1z1wZRdxuCEQGZ6fAZ-Y3MIFKrFx0SThk/exec';
+    const scriptUrlBaoHy = 'https://script.google.com/macros/s/AKfycbzkFVpV7FWCWCNCStaorROIKT6Nz9hyVarNSgUfHdmspLMu7CndEoXb5nkXO4CEj907/exec';
     loadImagesFromDrive('grid-baohy', scriptUrlBaoHy);
 
     const scriptUrlVuQuy = 'https://script.google.com/macros/s/AKfycbyfI2BN8GPl4F236Bg1Kz0dUu9oM-VGf20n-LYU8cWkf_CgpU_A1XU8mMjMNHSrkgO6Vw/exec';
